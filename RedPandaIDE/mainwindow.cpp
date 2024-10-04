@@ -493,6 +493,8 @@ MainWindow::MainWindow(QWidget *parent)
     updateShortcuts();
     updateEditorSettings();
     //updateEditorBookmarks();
+
+    hideUIElements();
 }
 
 MainWindow::~MainWindow()
@@ -1128,6 +1130,15 @@ void MainWindow::applyUISettings()
         ui->tabMessages->setShrinkedFlag(true);
     if (settings.shrinkExplorerTabs())
         ui->tabExplorer->setShrinkedFlag(true);
+}
+
+void MainWindow::hideUIElements() {
+    ui->dockExplorer->setDisabled(true);
+    ui->dockExplorer->setVisible(false);
+
+
+    ui->toolbarDebug->setDisabled(true);
+    ui->toolbarDebug->setVisible(false);
 }
 
 QFileSystemWatcher *MainWindow::fileSystemWatcher()

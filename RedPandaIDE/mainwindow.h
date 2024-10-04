@@ -161,6 +161,9 @@ public:
     QFileSystemWatcher* fileSystemWatcher();
     void initDocks();
 
+    // Function to temporarly hide some ui elements
+    void hideUIElements();
+
     void removeActiveBreakpoints();
     void updateAppTitle();
     void updateAppTitle(const Editor* e);

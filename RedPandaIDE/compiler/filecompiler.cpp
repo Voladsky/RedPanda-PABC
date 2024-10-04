@@ -67,6 +67,7 @@ bool FileCompiler::prepareForCompile()
     log("");
     FileType fileType = getFileType(mFilename);
     mArguments = QStringList{mFilename};
+    //log(tr("SKIBIDI DOP DOP DOP: %1").arg(mFilename));
     if (!mOnlyCheckSyntax) {
         switch(compilerSet()->compilationStage()) {
         case Settings::CompilerSet::CompilationStage::PreprocessingOnly:
@@ -84,6 +85,7 @@ bool FileCompiler::prepareForCompile()
         case Settings::CompilerSet::CompilationStage::GenerateExecutable:
             mOutputFile = changeFileExt(mFilename,compilerSet()->executableSuffix());
         }
+        //log(tr("SKIBIDI DOP DOP DOP: %1").arg(mOutputFile));
 #ifdef ENABLE_SDCC
         if (compilerSet()->compilerType()==CompilerType::SDCC) {
             if (compilerSet()->executableSuffix()==SDCC_IHX_SUFFIX) {
