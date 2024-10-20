@@ -37,6 +37,7 @@ using SimpleIni = CSimpleIniA;
 using PSimpleIni = std::shared_ptr<SimpleIni>;
 
 enum class FileType{
+    Pas, // PABCNET source file
     GAS, // GNU assembler source file (.s)
     LUA, // lua file (.lua)
     CSource, // c source file (.c)

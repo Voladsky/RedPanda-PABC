@@ -93,7 +93,9 @@ bool FileCompiler::prepareForCompile()
             }
         }
 #endif
-        mArguments += {"-o", mOutputFile};
+        if (fileType != FileType::Pas) {
+            mArguments += {"-o", mOutputFile};
+        }
 
 #if defined(ARCH_X86_64) || defined(ARCH_X86)
         if (mCompileType == CppCompileType::GenerateAssemblyOnly) {
@@ -116,6 +118,10 @@ bool FileCompiler::prepareForCompile()
     mArguments += getCharsetArgument(mEncoding, fileType, mOnlyCheckSyntax);
     QString strFileType;
     switch(fileType) {
+    case FileType::Pas:
+        strFileType = tr("PascalABC.NET");
+        mCompiler = compilerSet()->CCompiler();
+        break;
     case FileType::GAS:
         mArguments += getCCompileArguments(mOnlyCheckSyntax);
         mArguments += getCIncludeArguments();

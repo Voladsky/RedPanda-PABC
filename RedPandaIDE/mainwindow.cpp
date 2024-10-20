@@ -75,6 +75,7 @@
 #include "iconsmanager.h"
 #include "widgets/newclassdialog.h"
 #include "widgets/newheaderdialog.h"
+
 #ifdef ENABLE_LUA_ADDON
 #include "addon/executor.h"
 #include "addon/runtime.h"
@@ -808,12 +809,13 @@ void MainWindow::updateCompileActions(const Editor *e)
     if (mCompilerManager->compiling()
             //|| mCompilerManager->backgroundSyntaxChecking()
             || mCompilerManager->running() || mDebugger->executing()) {
-        ui->actionCompile->setEnabled(false);
+        /*ui->actionCompile->setEnabled(false);
         ui->actionRun->setEnabled(false);
         ui->actionRebuild->setEnabled(false);
         ui->actionGenerate_Assembly->setEnabled(false);
         ui->actionDebug->setEnabled(false);
         mProblem_RunAllCases->setEnabled(false);
+        */
     } else {
         bool forProject=false;
         bool canRun = false;
@@ -874,11 +876,12 @@ void MainWindow::updateCompileActions(const Editor *e)
                 }
             }
         }
-        ui->actionCompile->setEnabled(canCompile);
+        /*ui->actionCompile->setEnabled(canCompile);
         ui->actionRun->setEnabled(canRun);
         ui->actionRebuild->setEnabled(canCompile);
         ui->actionGenerate_Assembly->setEnabled(canGenerateAssembly);
         ui->actionDebug->setEnabled(canDebug);
+*/
         mProblem_RunAllCases->setEnabled(canRun && mOJProblemModel.count()>0);
     }
     if (!mDebugger->executing()) {
@@ -2219,7 +2222,6 @@ bool MainWindow::parsing()
     }
     return false;
 }
-
 
 bool MainWindow::compile(bool rebuild, CppCompileType compileType)
 {

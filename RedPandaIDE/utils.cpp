@@ -48,6 +48,9 @@ NonExclusiveTemporaryFileOwner::~NonExclusiveTemporaryFileOwner()
 
 FileType getFileType(const QString &filename)
 {
+    if (filename.endsWith(".pas", PATH_SENSITIVITY)) {
+        return FileType::Pas;
+    }
     if (filename.endsWith(".s",PATH_SENSITIVITY)) {
         return FileType::GAS;
     }
