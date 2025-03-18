@@ -76,6 +76,8 @@
 #include "widgets/newclassdialog.h"
 #include "widgets/newheaderdialog.h"
 
+#include "compiler/externalcompilermanager.h"
+
 #ifdef ENABLE_LUA_ADDON
 #include "addon/executor.h"
 #include "addon/runtime.h"
@@ -2310,7 +2312,12 @@ bool MainWindow::compile(bool rebuild, CppCompileType compileType)
             }
             stretchMessagesPanel(true);
             ui->tabMessages->setCurrentWidget(ui->tabToolsOutput);
-            mCompilerManager->compile(editor->filename(),editor->fileEncoding(),rebuild,compileType);
+            if (editor->filename().contains(".pas")) {
+                ExternalCompilerManager::instance().compile(editor->filename());
+            }
+            else {
+                mCompilerManager->compile(editor->filename(),editor->fileEncoding(),rebuild,compileType);
+            }
             updateCompileActions();
             updateAppTitle();
         }
@@ -5629,6 +5636,7 @@ void MainWindow::on_actionOpen_triggered()
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
+
     mQuitting = true;
     if (!mShouldRemoveAllSettings) {
         if (mCPUDialog)

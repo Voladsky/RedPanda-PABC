@@ -42,6 +42,9 @@
 #include "utils/font.h"
 #include "problems/ojproblemset.h"
 
+// EXTERNAL COMPILER
+#include "compiler/externalcompilermanager.h"
+
 #ifdef Q_OS_WIN
 #include <QTemporaryFile>
 #include <windows.h>
@@ -287,6 +290,8 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication app(argc, argv);
+    // START THE PABCNET COMPILER
+    ExternalCompilerManager::instance().startCompiler();
 
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
@@ -469,6 +474,7 @@ int main(int argc, char *argv[])
             QDir dir(configDir);
             dir.removeRecursively();
         }
+
         return retCode;
     }  catch (BaseError e) {
         lockFile.unlock();

@@ -93,3 +93,10 @@ win32: {
         }
     }
 }
+
+# Include path for ZeroMQ headers
+INCLUDEPATH += "C:/zmq/include"
+
+# Library path for ZeroMQ binaries
+LIBS += "C:/zmq/lib/libzmq-v142-mt-4_3_5.lib"
+# LIBS += "C:/zmq/lib/libzmq-v142-mt-s-4_3_5.lib"

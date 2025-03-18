@@ -121,6 +121,7 @@ bool FileCompiler::prepareForCompile()
     case FileType::Pas:
         strFileType = tr("PascalABC.NET");
         mCompiler = compilerSet()->CCompiler();
+        mArguments += "\noconsole";
         break;
     case FileType::GAS:
         mArguments += getCCompileArguments(mOnlyCheckSyntax);
