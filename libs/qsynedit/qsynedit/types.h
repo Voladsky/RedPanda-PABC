@@ -38,6 +38,7 @@ enum class ProgrammingLanguage {
     Makefile,
     LUA,
     XMAKE,
+    PAS,
     Custom,
     Textfile,
     Unknown

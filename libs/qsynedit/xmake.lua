@@ -24,6 +24,7 @@ target("qsynedit")
         "qsynedit/syntaxer/cpp.cpp",
         "qsynedit/syntaxer/glsl.cpp",
         "qsynedit/syntaxer/lua.cpp",
+        "qsynedit/syntaxer/pas.cpp",
         "qsynedit/syntaxer/makefile.cpp",
         "qsynedit/syntaxer/textfile.cpp",
         "qsynedit/syntaxer/syntaxer.cpp")

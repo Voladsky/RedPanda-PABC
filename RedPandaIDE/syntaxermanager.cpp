@@ -21,6 +21,7 @@
 #include "qsynedit/syntaxer/asm.h"
 #include "qsynedit/syntaxer/glsl.h"
 #include "qsynedit/syntaxer/lua.h"
+#include "qsynedit/syntaxer/pas.h"
 #include "qsynedit/syntaxer/makefile.h"
 #include "qsynedit/syntaxer/textfile.h"
 #include "qsynedit/formatter/cppformatter.h"
@@ -58,6 +59,9 @@ QSynedit::PSyntaxer SyntaxerManager::getSyntaxer(QSynedit::ProgrammingLanguage l
         QSynedit::LuaSyntaxer* pSyntaxer= (QSynedit::LuaSyntaxer*)syntaxer.get();
         pSyntaxer->setUseXMakeLibs(true);
         return syntaxer;
+    }
+    case QSynedit::ProgrammingLanguage::PAS: {
+        return std::make_shared<QSynedit::PasSyntaxer>();
     }
     default:
         return std::make_shared<QSynedit::TextSyntaxer>();
@@ -106,6 +110,8 @@ QSynedit::ProgrammingLanguage SyntaxerManager::getLanguage(const QString &filena
             return QSynedit::ProgrammingLanguage::XMAKE;
         } else
             return QSynedit::ProgrammingLanguage::LUA;
+    } else if (suffix == "pas") {
+            return QSynedit::ProgrammingLanguage::PAS;
     } else if (basename.compare("makefile", Qt::CaseInsensitive)==0) {
         return QSynedit::ProgrammingLanguage::Makefile;
     } else if (suffix.isEmpty()) {

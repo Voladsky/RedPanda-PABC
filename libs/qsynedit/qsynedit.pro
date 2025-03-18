@@ -52,6 +52,7 @@ SOURCES += qsynedit/codefolding.cpp \
     qsynedit/syntaxer/cpp.cpp \
     qsynedit/syntaxer/glsl.cpp \
     qsynedit/syntaxer/lua.cpp \
+    qsynedit/syntaxer/pas.cpp \
     qsynedit/types.cpp \
     qsynedit/syntaxer/makefile.cpp \
     qsynedit/syntaxer/textfile.cpp \
@@ -80,6 +81,7 @@ HEADERS += \
     qsynedit/syntaxer/cpp.h \
     qsynedit/syntaxer/glsl.h \
     qsynedit/syntaxer/lua.h \
+    qsynedit/syntaxer/pas.h \
     qsynedit/syntaxer/makefile.h \
     qsynedit/syntaxer/textfile.h \
     qsynedit/syntaxer/syntaxer.h
