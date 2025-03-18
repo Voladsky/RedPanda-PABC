@@ -24,10 +24,17 @@ void handlePascalError() {
 }
 
 void ExternalCompilerManager::startCompiler() {
+#ifdef Q_OS_WINDOWS
     QString path_to_pas = "D:\\Sci\\pascalabcnet-zmq\\bin\\pabcnetc.exe"; // Path to the C# executable
     compilerProcess->setProgram(path_to_pas);
     compilerProcess->setProcessChannelMode(QProcess::SeparateChannels);
     compilerProcess->setArguments(QStringList() << "/noconsole" << "commandmode");
+#else
+    QString path_to_mono = "/usr/bin/mono";
+    compilerProcess->setProgram(path_to_mono);
+    compilerProcess->setProcessChannelMode(QProcess::SeparateChannels);
+    compilerProcess->setArguments(QStringList() << "/usr/bin/pabcnetc.exe" << "/noconsole" << "commandmode");
+#endif
     // Connect signals for output and errors
     //connect(compilerProcess, &QProcess::readyReadStandardOutput, this, &MainWindow::handlePascalOutput);
     connect(compilerProcess, QOverload<QProcess::ProcessError>::of(&QProcess::errorOccurred), this, handlePascalError);
