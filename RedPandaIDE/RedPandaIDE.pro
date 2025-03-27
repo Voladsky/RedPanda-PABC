@@ -104,11 +104,13 @@ CONFIG(debug_and_release_target) {
 
 INCLUDEPATH += ../libs/qsynedit ../libs/redpanda_qt_utils ../libs/lua
 
-# Include path for ZeroMQ headers
-INCLUDEPATH += C:/zmq/include
+win32: {
+    # Include path for ZeroMQ headers
+    INCLUDEPATH += C:/zmq/include
 
-# Library path for ZeroMQ binaries
-LIBS += C:/zmq/lib/libzmq-v142-mt-4_3_5.lib
+    # Library path for ZeroMQ binaries
+    LIBS += C:/zmq/lib/libzmq-v142-mt-4_3_5.lib
+}
 
 LIBS += -L$$OUT_PWD/../libs/qsynedit/$${OBJ_OUT_PWD} -lqsynedit \
         -L$$OUT_PWD/../libs/redpanda_qt_utils/$${OBJ_OUT_PWD} -lredpanda_qt_utils \
