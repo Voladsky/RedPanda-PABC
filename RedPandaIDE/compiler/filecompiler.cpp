@@ -202,7 +202,10 @@ bool FileCompiler::prepareForCompile()
 bool FileCompiler::prepareForRebuild()
 {
     QString exeName=compilerSet()->getOutputFilename(mFilename);
-
+    // if (mFilename.endsWith(".pas")) {
+    //     exeName += ".exe";
+    // }
+    // log(tr("Exename: %1").arg(exeName));
     QFile file(exeName);
 
     if (file.exists() && !file.remove()) {

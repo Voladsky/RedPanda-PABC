@@ -6,7 +6,7 @@
 
 ExternalCompilerManager& ExternalCompilerManager::instance()
 {
-    static ExternalCompilerManager instance(qApp);
+    static ExternalCompilerManager instance(nullptr);
     return instance;
 }
 
@@ -30,10 +30,10 @@ void ExternalCompilerManager::startCompiler() {
     compilerProcess->setProcessChannelMode(QProcess::SeparateChannels);
     compilerProcess->setArguments(QStringList() << "/noconsole" << "commandmode");
 #else
-    QString path_to_mono = "/usr/bin/mono";
+    QString path_to_mono = "mono";
     compilerProcess->setProgram(path_to_mono);
     compilerProcess->setProcessChannelMode(QProcess::SeparateChannels);
-    compilerProcess->setArguments(QStringList() << "/usr/bin/pabcnetc.exe" << "/noconsole" << "commandmode");
+    compilerProcess->setArguments(QStringList() << "/home/voladsky/mmcs/compilers/PascalABCNETLinuxZMQ/PascalABCNETLinux/pabcnetc.exe" << "/noconsole" << "commandmode");
 #endif
     // Connect signals for output and errors
     //connect(compilerProcess, &QProcess::readyReadStandardOutput, this, &MainWindow::handlePascalOutput);
@@ -92,7 +92,9 @@ void ExternalCompilerManager::compile(const QString& filepath) {
 }
 
 ExternalCompilerManager::~ExternalCompilerManager() {
+	compilerProcess->disconnect();
+	compilerProcess->kill();
+	compilerProcess->waitForFinished();
     requester.close();
     context.close();
-    compilerProcess->kill();
 }
