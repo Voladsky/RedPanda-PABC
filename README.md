@@ -1,5 +1,23 @@
-# RedPanda C++ 
-Red Panda C++ (Old name: Red Panda Dev-C++ 7) is an fast ,lightweight, open source, and cross platform C/C++/GNU Assembly IDE.
+# RedPanda PABC.NET
+
+Кроссплатформенная среда для языка PascalABC.NET на основе RedPanda C++
+
+# Установка
+
+Процесс установки:
+1. Клонировать этот репозиторий
+2. Клонировать репозиторий PascalABC.NET с поддержкой ZMQ [https://github.com/Voladsky/pascalabcnet-zmq.git](https://github.com/Voladsky/pascalabcnet-zmq.git)
+3. Сгенерировать Linux-версию PascalABC.NET (скрипты GenerateLinuxVersion.bat и/или GenerateLinuxVersion.sh)
+4. Собрать проект RedPanda, используя Qt Creator (можно и без Qt Creator, но, так или иначе, понадобится qmake)
+5. Скопировать Linux-версию PascalABC.NET, сгенерированную на шаге 2, из Releases/PascalABCNETLinux в папку PascalABCNETLinux в папке с билдом RedPanda
+6. Запустить RedPanda
+
+**Возможная проблема с consolepauser**: если возникает ошибка, что consolepauser не найден в какой-либо папке, просто скопируйте исполняемый файл из папки с билдом /tools/consolepauser/{debug, release}/consolepauser{.exe} в папку, в которой RedPanda не может найти consolepauser (при необходимости нужно досоздать несуществующие папки).
+
+Подробности по RedPanda C++ : [https://github.com/royqh1979/RedPanda-CPP](https://github.com/royqh1979/RedPanda-CPP)
+Подробности по PascalABC.NET: [https://github.com/pascalabcnet/pascalabcnet](https://github.com/pascalabcnet/pascalabcnet)
+
+--
 
 Simplified Chinese Website: [http://royqh.net/redpandacpp](http://royqh.net/redpandacpp)
 
