@@ -3,6 +3,7 @@
 #include <QApplication>
 #include "mainwindow.h"
 #include <QMessageBox>
+#include <settings.h>
 
 ExternalCompilerManager& ExternalCompilerManager::instance()
 {
@@ -25,7 +26,7 @@ void handlePascalError() {
 
 void ExternalCompilerManager::startCompiler() {
 #ifdef Q_OS_WINDOWS
-    QString path_to_pas = "D:\\Sci\\pascalabcnet-zmq\\bin\\pabcnetc.exe"; // Path to the C# executable
+    QString path_to_pas = pSettings->dirs().appDir() + "/../PascalABCNETLinux/pabcnetc.exe"; // Path to the C# executable
     compilerProcess->setProgram(path_to_pas);
     compilerProcess->setProcessChannelMode(QProcess::SeparateChannels);
     compilerProcess->setArguments(QStringList() << "/noconsole" << "commandmode");
@@ -33,7 +34,7 @@ void ExternalCompilerManager::startCompiler() {
     QString path_to_mono = "mono";
     compilerProcess->setProgram(path_to_mono);
     compilerProcess->setProcessChannelMode(QProcess::SeparateChannels);
-    compilerProcess->setArguments(QStringList() << "/home/voladsky/mmcs/compilers/PascalABCNETLinuxZMQ/PascalABCNETLinux/pabcnetc.exe" << "/noconsole" << "commandmode");
+    compilerProcess->setArguments(QStringList() << (pSettings->dirs().appDir() + "/../PascalABCNETLinux/pabcnetc.exe").c_str() << "/noconsole" << "commandmode");
 #endif
     // Connect signals for output and errors
     //connect(compilerProcess, &QProcess::readyReadStandardOutput, this, &MainWindow::handlePascalOutput);

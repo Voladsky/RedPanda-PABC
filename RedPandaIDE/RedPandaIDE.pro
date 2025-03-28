@@ -76,12 +76,13 @@ win32 {
     equals(_WINDOWS_PREFER_OPENCONSOLE, "ON") {
         DEFINES += WINDOWS_PREFER_OPENCONSOLE
     }
+} else {
+    LIBS += -lzmq
 }
-
-
 gcc {
     QMAKE_CXXFLAGS_RELEASE += -Werror=return-type
     QMAKE_CXXFLAGS_DEBUG += -Werror=return-type
+
 }
 
 msvc {
@@ -104,10 +105,9 @@ CONFIG(debug_and_release_target) {
 
 INCLUDEPATH += ../libs/qsynedit ../libs/redpanda_qt_utils ../libs/lua
 
+# Include path for ZeroMQ headers
 win32: {
-    # Include path for ZeroMQ headers
     INCLUDEPATH += C:/zmq/include
-
     # Library path for ZeroMQ binaries
     LIBS += C:/zmq/lib/libzmq-v142-mt-4_3_5.lib
 }
@@ -551,8 +551,7 @@ linux: {
 TRANSLATIONS += \
     translations/RedPandaIDE_zh_CN.ts \
     translations/RedPandaIDE_zh_TW.ts \
-    translations/RedPandaIDE_pt_BR.ts \
-    translations/RedPandaIDE_ru_RU.ts
+    translations/RedPandaIDE_pt_BR.ts
 
 win32: {
     !isEmpty(PREFIX) {
@@ -591,7 +590,6 @@ qtConfig(static) {
     qt_translation_files.files += $$[QT_INSTALL_TRANSLATIONS]/qtbase_pt_BR.qm
     qt_translation_files.files += $$[QT_INSTALL_TRANSLATIONS]/qtbase_zh_CN.qm
     qt_translation_files.files += $$[QT_INSTALL_TRANSLATIONS]/qtbase_zh_TW.qm
-    qt_translation_files.files += $$[QT_INSTALL_TRANSLATIONS]/qtbase_ru_RU.qm
     qt_translation_files.base = $$[QT_INSTALL_TRANSLATIONS]
     qt_translation_files.prefix = /translations
 
