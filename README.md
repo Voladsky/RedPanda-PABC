@@ -15,6 +15,7 @@
 **Возможная проблема с consolepauser**: если возникает ошибка, что consolepauser не найден в какой-либо папке, просто скопируйте исполняемый файл из папки с билдом /tools/consolepauser/{debug, release}/consolepauser{.exe} в папку, в которой RedPanda не может найти consolepauser (при необходимости нужно досоздать несуществующие папки).
 
 Подробности по RedPanda C++ : [https://github.com/royqh1979/RedPanda-CPP](https://github.com/royqh1979/RedPanda-CPP)
+
 Подробности по PascalABC.NET: [https://github.com/pascalabcnet/pascalabcnet](https://github.com/pascalabcnet/pascalabcnet)
 
 --
