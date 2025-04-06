@@ -22,6 +22,8 @@ public:
 private:
     explicit ExternalCompilerManager(QObject *parent = nullptr);
     ~ExternalCompilerManager();
+    void error(const QString& msg);
+    void sendMessage(zmq::socket_t& socket, const std::string& message);
 
     QProcess* compilerProcess;
     zmq::context_t context;
