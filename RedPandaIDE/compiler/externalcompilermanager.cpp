@@ -91,16 +91,20 @@ void ExternalCompilerManager::sendMessage(zmq::socket_t& socket, const std::stri
 void ExternalCompilerManager::error(const QString& msg) {
     // i'd like to kill myself
     QRegularExpression regex(R"(^\[([^\]]+)\]\[(\d+),(\d+)\]\s+(.*?):\s+(.*)$)");
-    QRegularExpressionMatch match = regex.match(msg);
-    PCompileIssue issue = std::make_shared<CompileIssue>();
-    if (match.hasMatch()) {
-        issue->line = match.captured(2).toInt();
-        issue->column = match.captured(3).toInt();
-        issue->filename = match.captured(4);
-        issue->description = match.captured(5);
-        issue->type = CompileIssueType::Error;
+    QRegularExpressionMatchIterator i = regex.globalMatch(msg);
+    while (i.hasNext()) {
+        QRegularExpressionMatch match = i.next();
+        PCompileIssue issue = std::make_shared<CompileIssue>();
+        if (match.hasMatch()) {
+            issue->line = match.captured(2).toInt();
+            issue->column = match.captured(3).toInt();
+            issue->filename = match.captured(4);
+            issue->description = match.captured(5);
+            issue->type = CompileIssueType::Error;
+        }
+        pMainWindow->onCompileIssue(issue);
     }
-    pMainWindow->onCompileIssue(issue);
+
 }
 
 void ExternalCompilerManager::compile(const QString& filepath) {
