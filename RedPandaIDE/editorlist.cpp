@@ -451,6 +451,7 @@ Editor* EditorList::getOpenedEditorByFilename(QString filename) const
         Editor* e = static_cast<Editor*>(mLeftPageWidget->widget(i));
         if (!e)
             continue;
+        auto fname = e->filename();
         if (e->filename().compare(filename, PATH_SENSITIVITY)==0) {
             return e;
         }

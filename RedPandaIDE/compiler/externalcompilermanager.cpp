@@ -3,6 +3,8 @@
 #include <QApplication>
 #include "mainwindow.h"
 #include <QMessageBox>
+#include <QRegularExpression>
+#include <settings.h>
 
 ExternalCompilerManager& ExternalCompilerManager::instance()
 {
@@ -25,7 +27,8 @@ void handlePascalError() {
 
 void ExternalCompilerManager::startCompiler() {
 #ifdef Q_OS_WINDOWS
-    QString path_to_pas = "D:\\Sci\\pascalabcnet-zmq\\bin\\pabcnetc.exe"; // Path to the C# executable
+    QString path_to_pas = "D:\\Sci\\pascalabcnet-zmq\\bin\\pabcnetc.exe";
+    //QString path_to_pas = pSettings->dirs().appDir() + "/../PascalABCNETLinux/pabcnetc.exe"; // Path to the C# executable
     compilerProcess->setProgram(path_to_pas);
     compilerProcess->setProcessChannelMode(QProcess::SeparateChannels);
     compilerProcess->setArguments(QStringList() << "/noconsole" << "commandmode");
@@ -33,7 +36,7 @@ void ExternalCompilerManager::startCompiler() {
     QString path_to_mono = "mono";
     compilerProcess->setProgram(path_to_mono);
     compilerProcess->setProcessChannelMode(QProcess::SeparateChannels);
-    compilerProcess->setArguments(QStringList() << "/home/voladsky/mmcs/compilers/PascalABCNETLinuxZMQ/PascalABCNETLinux/pabcnetc.exe" << "/noconsole" << "commandmode");
+    compilerProcess->setArguments(QStringList() << (pSettings->dirs().appDir() + "/../PascalABCNETLinux/pabcnetc.exe").c_str() << "/noconsole" << "commandmode");
 #endif
     // Connect signals for output and errors
     //connect(compilerProcess, &QProcess::readyReadStandardOutput, this, &MainWindow::handlePascalOutput);
@@ -48,8 +51,6 @@ void ExternalCompilerManager::startCompiler() {
     }
 }
 
-
-
 void ExternalCompilerManager::killCompiler() {
     compilerProcess->kill();
 }
@@ -59,7 +60,7 @@ void ExternalCompilerManager::restartCompiler() {
     this->startCompiler();
 }
 
-void sendMessage(zmq::socket_t& socket, const std::string& message) {
+void ExternalCompilerManager::sendMessage(zmq::socket_t& socket, const std::string& message) {
     zmq::message_t msg(message.size());
     memcpy(msg.data(), message.c_str(), message.size());
     socket.send(msg, zmq::send_flags::none);
@@ -70,12 +71,14 @@ void sendMessage(zmq::socket_t& socket, const std::string& message) {
     if (items[0].revents & ZMQ_POLLIN) {
         zmq::message_t reply;
         auto received = socket.recv(reply);
-
         if (received) {
             std::string replyMessage(static_cast<char*>(reply.data()), reply.size());
             QString qReplyMessage = QString::fromStdString(replyMessage);
+            pMainWindow->logToolsOutput(qReplyMessage);
             if (qReplyMessage.startsWith("100")) {
                 pMainWindow->logToolsOutput("COMPILED SUCCESSFULY!");
+            } else {
+                this->error(qReplyMessage);
             }
         } else {
             QMessageBox::warning(pMainWindow, "Error", "Failed to receive response.");
@@ -85,10 +88,30 @@ void sendMessage(zmq::socket_t& socket, const std::string& message) {
     }
 }
 
+void ExternalCompilerManager::error(const QString& msg) {
+    // i'd like to kill myself
+    QRegularExpression regex(R"(^\[([^\]]+)\]\[(\d+),(\d+)\]\s+(.*?):\s+(.*)$)");
+    QRegularExpressionMatchIterator i = regex.globalMatch(msg);
+    while (i.hasNext()) {
+        QRegularExpressionMatch match = i.next();
+        PCompileIssue issue = std::make_shared<CompileIssue>();
+        if (match.hasMatch()) {
+            issue->line = match.captured(2).toInt();
+            issue->column = match.captured(3).toInt();
+            issue->filename = match.captured(4);
+            issue->description = match.captured(5);
+            issue->type = CompileIssueType::Error;
+        }
+        pMainWindow->onCompileIssue(issue);
+    }
+
+}
+
 void ExternalCompilerManager::compile(const QString& filepath) {
     std::string s = "215#5#" + filepath.toStdString();
     sendMessage(requester, s);
     sendMessage(requester, "210");
+    pMainWindow->onCompileFinished(filepath,false);
 }
 
 ExternalCompilerManager::~ExternalCompilerManager() {
