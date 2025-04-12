@@ -216,7 +216,7 @@ int main(int argc, char** argv) {
 
     // Done? Print return value of executed program
     printf("\n--------------------------------");
-    printf("\nProcess exited after %.4g seconds with return value %d, %ld KB mem used.\n",seconds,returnvalue,peakMemory);
+    printf("\nПроцесс завершил работу после %.4g секунд с возвращаемым значением %d, %ld КБ памяти было использовано.\n",seconds,returnvalue,peakMemory);
     if (pauseAfterExit)
         PauseExit(returnvalue,reInp);
     return 0;

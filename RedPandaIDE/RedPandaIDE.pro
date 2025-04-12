@@ -78,6 +78,7 @@ win32 {
     }
 }
 
+LIBS += -lzmq
 
 gcc {
     QMAKE_CXXFLAGS_RELEASE += -Werror=return-type
