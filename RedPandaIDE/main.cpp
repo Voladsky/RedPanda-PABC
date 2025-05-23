@@ -273,16 +273,16 @@ int main(int argc, char *argv[])
 //#endif
 
 #ifdef Q_OS_MACOS
-    // in macOS GUI apps, `/usr/local/bin` is not in PATH by default
+    // in macOS GUI apps, `/usr/bin` is not in PATH by default
     // follow the Unix way by prepending it to `/usr/bin`
     {
         QStringList pathList = getExecutableSearchPaths();
-        if (!pathList.contains("/usr/local/bin")) {
+        if (!pathList.contains("/usr/bin")) {
             auto idxUsrBin = pathList.indexOf("/usr/bin");
             if (idxUsrBin >= 0)
-                pathList.insert(idxUsrBin, "/usr/local/bin");
+                pathList.insert(idxUsrBin, "/usr/bin");
             else
-                pathList.append("/usr/local/bin");
+                pathList.append("/usr/bin");
         }
         QString newPath = pathList.join(PATH_SEPARATOR);
         qputenv("PATH", newPath.toUtf8());

@@ -4,6 +4,7 @@
 #include "mainwindow.h"
 #include <QMessageBox>
 #include <QRegularExpression>
+#include <QStandardPaths>
 #include <settings.h>
 
 ExternalCompilerManager& ExternalCompilerManager::instance()
@@ -25,6 +26,22 @@ void handlePascalError() {
     QMessageBox::critical(pMainWindow, "", "ERRROR!");
 }
 
+QString findPascalABCNET(const QString& exename) {
+    qDebug() << QCoreApplication::applicationDirPath();
+    QStringList possiblePaths = {
+        QCoreApplication::applicationDirPath() + "/../../" + QString("%1/share/%2/PascalABCNETLinux").arg(PREFIX).arg(APP_NAME),
+        QCoreApplication::applicationDirPath() + "/../../../PascalABCNETLinux"
+    };
+    for (const QString& path : possiblePaths) {
+        QFile file(path + "/" + exename);
+        qDebug() << file;
+        if (file.exists()) {
+            return file.fileName();
+        }
+    }
+    return QString();
+}
+
 void ExternalCompilerManager::startCompiler() {
 #ifdef Q_OS_WINDOWS
     QString path_to_pas = "D:\\Sci\\pascalabcnet-zmq\\bin\\pabcnetc.exe";
@@ -36,7 +53,9 @@ void ExternalCompilerManager::startCompiler() {
     QString path_to_mono = "mono";
     compilerProcess->setProgram(path_to_mono);
     compilerProcess->setProcessChannelMode(QProcess::SeparateChannels);
-    compilerProcess->setArguments(QStringList() << (pSettings->dirs().appDir() + "/../PascalABCNETLinux/pabcnetc.exe").c_str() << "/noconsole" << "commandmode");
+    QString path_to_pas = findPascalABCNET("pabcnetc.exe");
+    qDebug() << path_to_pas;
+    compilerProcess->setArguments(QStringList() << path_to_pas.toStdString().c_str() << "/noconsole" << "commandmode");
 #endif
     // Connect signals for output and errors
     //connect(compilerProcess, &QProcess::readyReadStandardOutput, this, &MainWindow::handlePascalOutput);

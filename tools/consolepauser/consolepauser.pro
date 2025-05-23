@@ -36,7 +36,7 @@ CONFIG += lrelease
 CONFIG += embed_translations
 
 isEmpty(PREFIX) {
-    PREFIX = /usr/local
+    PREFIX = /usr
 }
 isEmpty(LIBEXECDIR) {
     LIBEXECDIR = $${PREFIX}/libexec

@@ -40,7 +40,7 @@ include(version.inc)
 
 unix:!macos: {
     isEmpty(PREFIX) {
-        PREFIX = /usr/local
+        PREFIX = /usr
     }
     isEmpty(LIBEXECDIR) {
         LIBEXECDIR = $${PREFIX}/libexec
@@ -94,9 +94,13 @@ win32: {
     }
 }
 
-# Include path for ZeroMQ headers
+pabcnet.files = $$files(PascalABCNETLinux/*, true)
+pabcnet.path = $${PREFIX}/share/$${APP_NAME}/PascalABCNETLinux
+
+INSTALLS += pabcnet
+
+win32: {
 INCLUDEPATH += "C:/zmq/include"
 
-# Library path for ZeroMQ binaries
 LIBS += "C:/zmq/lib/libzmq-v142-mt-4_3_5.lib"
-# LIBS += "C:/zmq/lib/libzmq-v142-mt-s-4_3_5.lib"
+}

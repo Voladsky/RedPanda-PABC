@@ -44,7 +44,7 @@ win32: VERSION = $${APP_VERSION}.0
 else: VERSION = $${APP_VERSION}
 
 isEmpty(PREFIX) {
-    PREFIX = /usr/local
+    PREFIX = /usr
 }
 isEmpty(LIBEXECDIR) {
     LIBEXECDIR = $${PREFIX}/libexec
@@ -82,6 +82,7 @@ win32 {
 
 gcc {
     QMAKE_CXXFLAGS_RELEASE += -Werror=return-type
+    QMAKE_CXXFLAGS_RELEASE += -fno-sized-deallocation
     QMAKE_CXXFLAGS_DEBUG += -Werror=return-type
 
 }

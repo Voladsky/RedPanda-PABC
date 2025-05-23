@@ -23,7 +23,8 @@ win32: {
 }
 
 gcc {
-    QMAKE_CXXFLAGS_RELEASE += -Werror=return-type
+    QMAKE_CXXFLAGS_RELEASE += -Werror=return-type    
+    QMAKE_CXXFLAGS_RELEASE += -fno-sized-deallocation
     QMAKE_CXXFLAGS_DEBUG += -Werror=return-type
 }
 
