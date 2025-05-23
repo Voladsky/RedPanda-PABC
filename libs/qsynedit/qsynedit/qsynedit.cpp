@@ -5552,7 +5552,7 @@ void QSynEdit::onProcessCommand(EditCommand , QChar , void *)
 
 void QSynEdit::onCommandProcessed(EditCommand , QChar , void *)
 {
-
+    emit changeForIntelli(mDocument->text());
 }
 
 void QSynEdit::executeCommand(EditCommand command, QChar ch, void *pData)

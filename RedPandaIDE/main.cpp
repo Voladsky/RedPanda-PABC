@@ -44,6 +44,7 @@
 
 // EXTERNAL COMPILER
 #include "compiler/externalcompilermanager.h"
+#include "intellisensemanager.h"
 
 #ifdef Q_OS_WIN
 #include <QTemporaryFile>
@@ -293,6 +294,10 @@ int main(int argc, char *argv[])
     // START THE PABCNET COMPILER
     ExternalCompilerManager::instance().startCompiler();
 
+    // START THE INTELLI SENSE
+    IntelliSenseManager::instance().startIntelli();
+    IntelliSenseManager::instance().connectEvents();
+
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
     ExternalResource resource;
@@ -388,8 +393,22 @@ int main(int argc, char *argv[])
         pSettings = settings.get();
         if (firstRun) {
             pSettings->compilerSets().findSets();
+
+            // ADD PASCALABCNET COMPILER SET
+            Settings::PCompilerSet set = pSettings->compilerSets().addSet();
+            set->setName("pabcnetc");
+#ifdef Q_OS_UNIX
+            set->setCCompiler("/usr/bin/mono");
+#else
+            set->setCCompiler("KASANE TETO");
+#endif
+            set->setExecutableSuffix("exe");
+            pSettings->compilerSets().setDefaultIndex(pSettings->compilerSets().size() - 1);
+
             pSettings->compilerSets().saveSets();
+
         }
+        qDebug() << pSettings->filename();
         pSettings->load();
         if (firstRun) {
             //set theme

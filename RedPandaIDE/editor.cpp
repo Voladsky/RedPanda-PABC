@@ -55,6 +55,7 @@
 #include "project.h"
 #include <qt_utils/charsetinfo.h>
 #include "utils/escape.h"
+#include "intellisensemanager.h"
 
 QHash<ParserLanguage,std::weak_ptr<CppParser>> Editor::mSharedParsers;
 
@@ -1059,6 +1060,7 @@ void Editor::keyPressEvent(QKeyEvent *event)
                 }
             } else {
                 //show keywords
+                //pMainWindow->logToolsOutput("Hatsune Miku" + QString::fromStdString(std::to_string(rand())));
                 processCommand(QSynedit::EditCommand::Char,ch,nullptr);
                 showCompletion("",false,CodeCompletionType::KeywordsOnly);
                 handled=true;
@@ -1145,6 +1147,9 @@ void Editor::keyPressEvent(QKeyEvent *event)
                 handled = handleSymbolCompletion(ch);
                 return;
             }
+            break;
+        case '.':
+
             break;
         }
     }
@@ -2059,7 +2064,24 @@ void Editor::onTooltipTimer()
 
     QSynedit::BufferCoord p;
     QPoint pos = mapFromGlobal(QCursor::pos());
+    qDebug() << p.line << ' ' << p.ch;
     TipType reason = getTipType(pos,p);
+
+    if (mFilename.endsWith(".pas")) {
+        QString result = IntelliSenseManager::instance().callIntelli(p, mFilename, "hover")[0];
+
+        QStringList lines = result.split('\n');
+
+        if (lines.size() > 1) {
+            result = "<b>" + lines.first() + "</b><br>" + lines.mid(1).join("<br>");
+        }
+        if (pMainWindow->functionTip()->isVisible()) {
+            pMainWindow->functionTip()->hide();
+        }
+        QToolTip::showText(mapToGlobal(pos),result,this);
+        return;
+    }
+
     PSyntaxIssue pError;
     int line ;
     if (reason == TipType::Error) {
@@ -2077,6 +2099,7 @@ void Editor::onTooltipTimer()
             reason=TipType::None;
         }
     }
+    qDebug() << (int)reason;
 
 
     // Get subject
@@ -3521,6 +3544,12 @@ void Editor::showCompletion(const QString& preWord,bool autoComplete, CodeComple
             return;
         }
     }
+    QStringList completions;
+    if (word.endsWith(".") && mFilename.endsWith(".pas")) {
+        pMainWindow->logToolsOutput(word + "; oo ee oo ");
+        qDebug() << "oo ee oo";
+        completions << IntelliSenseManager::instance().callIntelli(QSynedit::BufferCoord{caretX(), caretY()}, mFilename, "completion");
+    }
 
     // Scan the current function body
     QSet<QString> keywords;
@@ -3569,6 +3598,15 @@ void Editor::showCompletion(const QString& preWord,bool autoComplete, CodeComple
             }
         }
     }
+
+    if (completions.size()) {
+        for (auto& s: completions) {
+            keywords.insert(s);
+        }
+    }
+
+    // keywords.insert("kasane");
+    // keywords.insert("teto");
 
     if (type == CodeCompletionType::KeywordsOnly && keywords.isEmpty())
         return;
@@ -3620,7 +3658,6 @@ void Editor::showCompletion(const QString& preWord,bool autoComplete, CodeComple
     }
     pMainWindow->functionTip()->hide();
     mCompletionPopup->show();
-
     if (word.isEmpty()) {
         //word=getWordAtPosition(this,caretXY(),pBeginPos,pEndPos, WordPurpose::wpCompletion);
         QString memberOperator;
@@ -4126,6 +4163,9 @@ QString Editor::getFileHint(const QString &s, bool fromNext)
 
 QString Editor::getParserHint(const QStringList& expression,const QString &/*s*/, int line)
 {
+    if (filename().endsWith(".pas")) {
+        return "<b>PascalABC.NET</b><br>PascalABC.NET - современный высокоуровневый язык программирования, основанный на C#.";
+    }
     if (!mParser)
         return "";
     // This piece of code changes the parser database, possibly making hints and code completion invalid...
@@ -4148,6 +4188,7 @@ QString Editor::getParserHint(const QStringList& expression,const QString &/*s*/
     } else {  // hard defines
         result = mParser->prettyPrintStatement(statement, mFilename);
     }
+    result = "<b>Kasane Teto</b><br>Kasane Teto is a virtual singer software (known as a voicebank) created on the Japanese textboard 2channel for April Fools' Day, 2008.";
     return result;
 }
 

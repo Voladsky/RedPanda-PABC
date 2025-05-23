@@ -464,6 +464,7 @@ public:
     const PFormatter &formatter() const;
     void setFormatter(const PFormatter &newFormatter);
 signals:
+    void changeForIntelli(const QString& fulltext);
     void linesDeleted(int FirstLine, int Count);
     void linesInserted(int FirstLine, int Count);
     void changed();

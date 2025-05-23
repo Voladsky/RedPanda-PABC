@@ -47,7 +47,7 @@ void ExternalCompilerManager::startCompiler() {
     if (!compilerProcess->waitForStarted()) {
         qDebug() << "Failed to start process!";
     } else {
-        qDebug() << "Process started successfully.";
+        qDebug() << "PABCNETC Process started successfully.";
     }
 }
 
@@ -60,17 +60,17 @@ void ExternalCompilerManager::restartCompiler() {
     this->startCompiler();
 }
 
-void ExternalCompilerManager::sendMessage(zmq::socket_t& socket, const std::string& message) {
+void ExternalCompilerManager::sendMessage(const std::string& message) {
     zmq::message_t msg(message.size());
     memcpy(msg.data(), message.c_str(), message.size());
-    socket.send(msg, zmq::send_flags::none);
+    requester.send(msg, zmq::send_flags::none);
     //Wait for the response with a timeout of 5 seconds
-    zmq::pollitem_t items[] = {{static_cast<void*>(socket), 0, ZMQ_POLLIN, 0}};
+    zmq::pollitem_t items[] = {{static_cast<void*>(requester), 0, ZMQ_POLLIN, 0}};
     zmq::poll(items, 1, 10000);
 
     if (items[0].revents & ZMQ_POLLIN) {
         zmq::message_t reply;
-        auto received = socket.recv(reply);
+        auto received = requester.recv(reply);
         if (received) {
             std::string replyMessage(static_cast<char*>(reply.data()), reply.size());
             QString qReplyMessage = QString::fromStdString(replyMessage);
@@ -104,13 +104,12 @@ void ExternalCompilerManager::error(const QString& msg) {
         }
         pMainWindow->onCompileIssue(issue);
     }
-
 }
 
 void ExternalCompilerManager::compile(const QString& filepath) {
     std::string s = "215#5#" + filepath.toStdString();
-    sendMessage(requester, s);
-    sendMessage(requester, "210");
+    sendMessage(s);
+    sendMessage("210");
     pMainWindow->onCompileFinished(filepath,false);
 }
 
