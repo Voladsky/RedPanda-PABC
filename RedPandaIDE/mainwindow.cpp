@@ -78,6 +78,8 @@
 
 #include "compiler/externalcompilermanager.h"
 
+#include "intellisensemanager.h"
+
 #ifdef ENABLE_LUA_ADDON
 #include "addon/executor.h"
 #include "addon/runtime.h"
@@ -1751,6 +1753,7 @@ Editor* MainWindow::openFile(QString filename, bool activate, QTabWidget* page)
             encoding=pProject->options().encoding;
         editor = mEditorList->newEditor(filename,encoding,
                                     pProject, false, page);
+        // IntelliSenseManager::instance().didOpen(filename);
 //        if (mProject) {
 //            mProject->associateEditorToUnit(editor,unit);
 //        }

@@ -140,6 +140,7 @@ SOURCES += \
 #    debugger/dapprotocol.cpp \
 #    debugger/dapdebugger.cpp \    
     cpprefacter.cpp \
+    intellisensemanager.cpp \
     parser/cppparser.cpp \
     parser/cpppreprocessor.cpp \
     parser/cpptokenizer.cpp \
@@ -277,6 +278,7 @@ HEADERS += \
 #    debugger/dapdebugger.h \    
     cpprefacter.h \
     customfileiconprovider.h \
+    intellisensemanager.h \
     parser/cppparser.h \
     parser/cpppreprocessor.h \
     parser/cpptokenizer.h \

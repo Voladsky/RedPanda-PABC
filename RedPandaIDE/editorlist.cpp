@@ -25,6 +25,7 @@
 #include "systemconsts.h"
 #include "visithistorymanager.h"
 #include <QApplication>
+#include "intellisensemanager.h"
 
 EditorList::EditorList(QTabWidget* leftPageWidget,
       QTabWidget* rightPageWidget,
@@ -56,6 +57,7 @@ Editor* EditorList::newEditor(const QString& filename, const QByteArray& encodin
 
     // parentPageControl takes the owner ship
     Editor * e = new Editor(parentPageControl,filename,encoding,pProject,newFile,parentPageControl);
+    IntelliSenseManager::instance().didOpen(filename, e);
     connect(e, &Editor::renamed, this, &EditorList::onEditorRenamed);
     updateLayout();
     connect(e,&Editor::fileSaved,
