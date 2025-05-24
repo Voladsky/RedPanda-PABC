@@ -1,1 +1,0 @@
-"C:\Program Files (x86)\Mono\bin\mono.exe" pabcnetc.exe

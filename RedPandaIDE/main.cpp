@@ -292,10 +292,10 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     // START THE PABCNET COMPILER
-    IntelliSenseManager::instance().startIntelli();
     ExternalCompilerManager::instance().startCompiler();
 
     // START THE INTELLI SENSE
+    IntelliSenseManager::instance().startIntelli();
     IntelliSenseManager::instance().connectEvents();
 
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);

@@ -535,8 +535,6 @@ bool Editor::saveAs(const QString &name, bool fromProject){
     emit renamed(oldName, newName , firstSave);
 
     initAutoBackup();
-
-    IntelliSenseManager::instance().didOpen(newName, this);
     return true;
 }
 
@@ -3548,7 +3546,7 @@ void Editor::showCompletion(const QString& preWord,bool autoComplete, CodeComple
     }
     QStringList completions;
     if (word.endsWith(".") && mFilename.endsWith(".pas")) {
-        //pMainWindow->logToolsOutput(word + "; oo ee oo ");
+        pMainWindow->logToolsOutput(word + "; oo ee oo ");
         qDebug() << "oo ee oo";
         completions << IntelliSenseManager::instance().callIntelli(QSynedit::BufferCoord{caretX(), caretY()}, mFilename, "completion");
     }

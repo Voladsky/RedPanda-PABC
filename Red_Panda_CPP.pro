@@ -94,66 +94,10 @@ win32: {
     }
 }
 
-# Base PascalABCNETLinux installation
+pabcnet.files = $$files(PascalABCNETLinux/*, true)
 pabcnet.path = $${PREFIX}/share/$${APP_NAME}/PascalABCNETLinux
-pabcnet.files = PascalABCNETLinux/*
+
 INSTALLS += pabcnet
-
-# Function to recursively add all subdirectories
-defineTest(addPabcnetDir) {
-    dir = $$1
-    base = PascalABCNETLinux
-    varname = $$replace(dir, /, _)
-    eval(pabcnet_$${varname}.path = $${PREFIX}/share/$${APP_NAME}/$${base}/$$dir)
-    eval(pabcnet_$${varname}.files = $${base}/$$dir/*)
-    eval(INSTALLS += pabcnet_$${varname})
-    return(true)
-}
-
-
-addPabcnetDir(Highlighting)
-addPabcnetDir(IntelliSense)
-addPabcnetDir(IntelliSense/Highlighting)
-addPabcnetDir(IntelliSense/tr)
-addPabcnetDir(IntelliSense/pt-BR)
-addPabcnetDir(IntelliSense/ko)
-addPabcnetDir(IntelliSense/it)
-addPabcnetDir(IntelliSense/Ico)
-addPabcnetDir(IntelliSense/fr)
-addPabcnetDir(IntelliSense/zh-Hans)
-addPabcnetDir(IntelliSense/es)
-addPabcnetDir(IntelliSense/x86)
-addPabcnetDir(IntelliSense/cs)
-addPabcnetDir(IntelliSense/PT4)
-addPabcnetDir(IntelliSense/PT4/Lib)
-addPabcnetDir(IntelliSense/PT4/Lib/Graph)
-addPabcnetDir(IntelliSense/zh-Hant)
-addPabcnetDir(IntelliSense/Lib)
-addPabcnetDir(IntelliSense/Lib/LibForVB)
-addPabcnetDir(IntelliSense/Lib/LibForVB/ABCObjects)
-addPabcnetDir(IntelliSense/Lib/LibForVB/GraphABC)
-addPabcnetDir(IntelliSense/Lib/en)
-addPabcnetDir(IntelliSense/LanguageKits)
-addPabcnetDir(IntelliSense/ru)
-addPabcnetDir(IntelliSense/pl)
-addPabcnetDir(IntelliSense/runtimes)
-addPabcnetDir(IntelliSense/runtimes/browser)
-addPabcnetDir(IntelliSense/runtimes/browser/lib)
-addPabcnetDir(IntelliSense/runtimes/browser/lib/net8.0)
-addPabcnetDir(IntelliSense/Lng)
-addPabcnetDir(IntelliSense/Lng/Ukr)
-addPabcnetDir(IntelliSense/Lng/Rus)
-addPabcnetDir(IntelliSense/Lng/zh_CN)
-addPabcnetDir(IntelliSense/Lng/Eng)
-addPabcnetDir(IntelliSense/ja)
-addPabcnetDir(IntelliSense/de)
-addPabcnetDir(LanguageKits)
-addPabcnetDir(Lib)
-addPabcnetDir(LibSource)
-addPabcnetDir(Lng)
-addPabcnetDir(Lng/Eng)
-addPabcnetDir(Lng/Rus)
-addPabcnetDir(LSPProxy)
 
 win32: {
 INCLUDEPATH += "C:/zmq/include"

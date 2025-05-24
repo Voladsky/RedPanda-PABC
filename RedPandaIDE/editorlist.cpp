@@ -57,7 +57,6 @@ Editor* EditorList::newEditor(const QString& filename, const QByteArray& encodin
 
     // parentPageControl takes the owner ship
     Editor * e = new Editor(parentPageControl,filename,encoding,pProject,newFile,parentPageControl);
-    e->save(true, false);
     IntelliSenseManager::instance().didOpen(filename, e);
     connect(e, &Editor::renamed, this, &EditorList::onEditorRenamed);
     updateLayout();

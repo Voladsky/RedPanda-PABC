@@ -3559,12 +3559,12 @@ void MainWindow::newEditor(const QString& suffix)
                 if (pSettings->editor().defaultFileCpp()) {
                     Settings::PCompilerSet compilerSet = pSettings->compilerSets().defaultSet();
                     if (compilerSet && !compilerSet->canCompileCPP()) {
-                        filename+=".pas";
+                        filename+=".c";
                     } else {
                         filename+=".cpp";
                     }
                 } else
-                    filename+=".pas";
+                    filename+=".c";
             } else
                 filename+= "." + suffix;
 
@@ -4586,7 +4586,7 @@ void MainWindow::onFilesViewCreateFile()
     if (pSettings->editor().defaultFileCpp())
         suffix=".cpp";
     else
-        suffix=".pas";
+        suffix=".c";
     QString fileName = QString("untitled")+suffix;
     int count = 0;
     while (dir.exists(fileName)) {
@@ -7574,7 +7574,7 @@ void MainWindow::newProjectUnitFile(const QString& suffix)
                 if (mProject->options().isCpp)
                     newFileName += ".cpp";
                 else
-                    newFileName += ".pas";
+                    newFileName += ".c";
             }
         } while (QDir(mProject->directory()).exists(newFileName));
         newFileName = QInputDialog::getText(
