@@ -1,0 +1,204 @@
+[b]
+begin
+  |
+end;
+
+[be]
+begin
+  |
+end.
+
+[i]
+integer
+
+[s]
+string
+
+[bo]
+boolean
+
+[l]
+loop 10 do
+  |
+
+[lb]
+loop 10 do
+begin
+  |
+end;
+
+[f]
+for var i:=1 to 10 do
+  |
+
+[fb]
+for var i:=1 to 10 do
+begin
+  |
+end;
+
+[fore]
+foreach var x in a do
+  |
+
+[foreb]
+foreach var x in a do
+begin
+  |
+end;
+
+[if]
+if | then
+
+[ifb]
+if | then
+begin
+  
+end;
+
+[ifeb]
+if | then
+begin
+  
+end
+else
+begin
+  
+end;
+
+[case]
+case | of
+  : ;
+  : ;
+end;
+
+[class]
+type | = class
+  
+end;
+
+[w]
+while | do
+
+[wb]
+while | do
+begin
+  
+end;
+
+[r]
+repeat
+  |
+until ;
+
+[p]
+Print(|);
+
+[pln]
+Println(|);
+
+[pr]
+procedure |();
+begin
+  
+end;
+
+[fu]
+function |(): ;
+begin
+  
+end;
+
+[ar]
+array of |;
+
+[a]
+→|
+
+[try]
+try
+  |
+except
+  
+end;
+
+[tryo]
+try
+  |
+except
+  on e: Exception do
+    
+end;
+
+[tryf]
+try
+  |
+finally
+  
+end;
+
+[program]
+program <filename>;
+
+begin
+  |
+end.
+
+[library]
+library <filename>;
+
+begin
+  |
+end.
+
+[unit]
+unit <filename>;
+
+interface
+
+|
+
+implementation
+
+
+
+begin
+  
+end.
+
+[graph]
+uses GraphWPF;
+
+begin
+  |
+end.
+
+[grabc]
+uses GraphABC;
+
+begin
+  |
+end.
+
+
+[wf]
+{$reference System.Windows.Forms.dll}
+{$reference System.Drawing.dll}
+{$apptype windows}
+
+uses System.Windows.Forms;
+uses System.Drawing;
+
+begin
+  var MainForm := new Form;
+  |
+  Application.Run(MainForm);
+end.
+
+[ref]
+{$reference '|'}
+
+[reg]
+{$region |}
+
+{$endregion}

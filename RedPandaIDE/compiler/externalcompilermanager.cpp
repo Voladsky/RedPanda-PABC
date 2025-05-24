@@ -1,11 +1,13 @@
 #include "externalcompilermanager.h"
+
 #include <QDebug>
 #include <QApplication>
-#include "mainwindow.h"
 #include <QMessageBox>
 #include <QRegularExpression>
 #include <QStandardPaths>
-#include <settings.h>
+
+#include "mainwindow.h"
+#include "settings.h"
 
 ExternalCompilerManager& ExternalCompilerManager::instance()
 {
@@ -13,7 +15,7 @@ ExternalCompilerManager& ExternalCompilerManager::instance()
     return instance;
 }
 
-ExternalCompilerManager::ExternalCompilerManager(QObject *parent)
+ExternalCompilerManager::ExternalCompilerManager(QObject* parent)
     : QObject(parent),
     context(1),
     requester(context, zmq::socket_type::req)
@@ -22,19 +24,25 @@ ExternalCompilerManager::ExternalCompilerManager(QObject *parent)
     requester.connect("tcp://127.0.0.1:5555");
 }
 
-void handlePascalError() {
-    QMessageBox::critical(pMainWindow, "", "ERRROR!");
+ExternalCompilerManager::~ExternalCompilerManager()
+{
+    compilerProcess->disconnect();
+    compilerProcess->kill();
+    compilerProcess->waitForFinished();
+    requester.close();
+    context.close();
 }
 
-QString findPascalABCNET(const QString& exename) {
-    qDebug() << QCoreApplication::applicationDirPath();
+QString ExternalCompilerManager::findPascalABCNET(const QString& exename)
+{
     QStringList possiblePaths = {
-        QCoreApplication::applicationDirPath() + "/../../" + QString("%1/share/%2/PascalABCNETLinux").arg(PREFIX).arg(APP_NAME),
+        QCoreApplication::applicationDirPath() + "/../../" +
+            QString("%1/share/%2/PascalABCNETLinux").arg(PREFIX).arg(APP_NAME),
         QCoreApplication::applicationDirPath() + "/../../../PascalABCNETLinux"
     };
+
     for (const QString& path : possiblePaths) {
         QFile file(path + "/" + exename);
-        qDebug() << file;
         if (file.exists()) {
             return file.fileName();
         }
@@ -42,26 +50,25 @@ QString findPascalABCNET(const QString& exename) {
     return QString();
 }
 
-void ExternalCompilerManager::startCompiler() {
+void ExternalCompilerManager::startCompiler()
+{
 #ifdef Q_OS_WINDOWS
     QString path_to_pas = "D:\\Sci\\pascalabcnet-zmq\\bin\\pabcnetc.exe";
-    //QString path_to_pas = pSettings->dirs().appDir() + "/../PascalABCNETLinux/pabcnetc.exe"; // Path to the C# executable
     compilerProcess->setProgram(path_to_pas);
     compilerProcess->setProcessChannelMode(QProcess::SeparateChannels);
     compilerProcess->setArguments(QStringList() << "/noconsole" << "commandmode");
 #else
     QString path_to_mono = "mono";
+    QString path_to_pas = findPascalABCNET("pabcnetc.exe");
+
     compilerProcess->setProgram(path_to_mono);
     compilerProcess->setProcessChannelMode(QProcess::SeparateChannels);
-    QString path_to_pas = findPascalABCNET("pabcnetc.exe");
-    qDebug() << path_to_pas;
-    compilerProcess->setArguments(QStringList() << path_to_pas.toStdString().c_str() << "/noconsole" << "commandmode");
+    compilerProcess->setArguments(QStringList()
+                                  << path_to_pas
+                                  << "/noconsole"
+                                  << "commandmode");
 #endif
-    // Connect signals for output and errors
-    //connect(compilerProcess, &QProcess::readyReadStandardOutput, this, &MainWindow::handlePascalOutput);
-    connect(compilerProcess, QOverload<QProcess::ProcessError>::of(&QProcess::errorOccurred), this, handlePascalError);
 
-    // Start the process in ReadWrite mode
     compilerProcess->start(QProcess::ReadWrite);
     if (!compilerProcess->waitForStarted()) {
         qDebug() << "Failed to start process!";
@@ -70,72 +77,77 @@ void ExternalCompilerManager::startCompiler() {
     }
 }
 
-void ExternalCompilerManager::killCompiler() {
+void ExternalCompilerManager::killCompiler()
+{
     compilerProcess->kill();
 }
 
-void ExternalCompilerManager::restartCompiler() {
-    this->killCompiler();
-    this->startCompiler();
+void ExternalCompilerManager::restartCompiler()
+{
+    killCompiler();
+    startCompiler();
 }
 
-void ExternalCompilerManager::sendMessage(const std::string& message) {
-    zmq::message_t msg(message.size());
-    memcpy(msg.data(), message.c_str(), message.size());
-    requester.send(msg, zmq::send_flags::none);
-    //Wait for the response with a timeout of 5 seconds
-    zmq::pollitem_t items[] = {{static_cast<void*>(requester), 0, ZMQ_POLLIN, 0}};
-    zmq::poll(items, 1, 10000);
+void ExternalCompilerManager::sendMessage(const std::string& message)
+{
+    try {
+        zmq::message_t msg(message.size());
+        memcpy(msg.data(), message.c_str(), message.size());
+        requester.send(msg, zmq::send_flags::none);
 
-    if (items[0].revents & ZMQ_POLLIN) {
-        zmq::message_t reply;
-        auto received = requester.recv(reply);
-        if (received) {
-            std::string replyMessage(static_cast<char*>(reply.data()), reply.size());
-            QString qReplyMessage = QString::fromStdString(replyMessage);
-            pMainWindow->logToolsOutput(qReplyMessage);
-            if (qReplyMessage.startsWith("100")) {
-                pMainWindow->logToolsOutput("COMPILED SUCCESSFULY!");
+        zmq::pollitem_t items[] = {{static_cast<void*>(requester), 0, ZMQ_POLLIN, 0}};
+        zmq::poll(items, 1, 10000);
+
+        if (items[0].revents & ZMQ_POLLIN) {
+            zmq::message_t reply;
+            if (requester.recv(reply)) {
+                QString replyMessage = QString::fromStdString(
+                    std::string(static_cast<char*>(reply.data()), reply.size()));
+
+                pMainWindow->logToolsOutput(replyMessage);
+                if (replyMessage.startsWith("100")) {
+                    pMainWindow->logToolsOutput("COMPILED SUCCESSFULLY!");
+                } else {
+                    error(replyMessage);
+                }
             } else {
-                this->error(qReplyMessage);
+                QMessageBox::warning(pMainWindow, "Error",
+                                     "Failed to receive response.");
             }
         } else {
-            QMessageBox::warning(pMainWindow, "Error", "Failed to receive response.");
+            QMessageBox::warning(pMainWindow, "Error",
+                                 "No response received within the timeout period.");
         }
-    } else {
-        QMessageBox::warning(pMainWindow, "Error", "No response received within the timeout period.");
+    } catch (const std::exception& e) {
+        QMessageBox::critical(pMainWindow, "Error",
+                              QString("Communication error: %1").arg(e.what()));
     }
 }
 
-void ExternalCompilerManager::error(const QString& msg) {
-    // i'd like to kill myself
+void ExternalCompilerManager::error(const QString& msg)
+{
     QRegularExpression regex(R"(^\[([^\]]+)\]\[(\d+),(\d+)\]\s+(.*?):\s+(.*)$)");
     QRegularExpressionMatchIterator i = regex.globalMatch(msg);
+
     while (i.hasNext()) {
         QRegularExpressionMatch match = i.next();
-        PCompileIssue issue = std::make_shared<CompileIssue>();
         if (match.hasMatch()) {
+            PCompileIssue issue = std::make_shared<CompileIssue>();
             issue->line = match.captured(2).toInt();
             issue->column = match.captured(3).toInt();
             issue->filename = match.captured(4);
             issue->description = match.captured(5);
             issue->type = CompileIssueType::Error;
+
+            pMainWindow->onCompileIssue(issue);
         }
-        pMainWindow->onCompileIssue(issue);
     }
 }
 
-void ExternalCompilerManager::compile(const QString& filepath) {
-    std::string s = "215#5#" + filepath.toStdString();
-    sendMessage(s);
+void ExternalCompilerManager::compile(const QString& filepath)
+{
+    std::string message = "215#5#" + filepath.toStdString();
+    sendMessage(message);
     sendMessage("210");
-    pMainWindow->onCompileFinished(filepath,false);
-}
-
-ExternalCompilerManager::~ExternalCompilerManager() {
-	compilerProcess->disconnect();
-	compilerProcess->kill();
-	compilerProcess->waitForFinished();
-    requester.close();
-    context.close();
+    pMainWindow->onCompileFinished(filepath, false);
 }

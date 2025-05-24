@@ -18,6 +18,7 @@ public:
     void killCompiler();
     void restartCompiler();
     void compile(const QString& filepath);
+    QString findPascalABCNET(const QString& exename);
 
 private:
     explicit ExternalCompilerManager(QObject *parent = nullptr);
