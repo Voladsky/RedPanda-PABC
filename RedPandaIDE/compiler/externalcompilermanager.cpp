@@ -149,5 +149,5 @@ void ExternalCompilerManager::compile(const QString& filepath)
     std::string message = "215#5#" + filepath.toStdString();
     sendMessage(message);
     sendMessage("210");
-    pMainWindow->onCompileFinished(filepath, false);
+    pMainWindow->onCompileFinished(filepath, true);
 }
