@@ -10,7 +10,7 @@
 2. Запустить файл ReleaseQT\RedPanda\RedPandaIDE.exe
 
 ## Linux
-
+0. Установить `mono` в `/usr/bin/mono` (проверить, куда установлено `mono` можно командой `which mono`) 
 1. Скачать .AppImage файл из последнего [https://github.com/Voladsky/RedPanda-PABC/releases/tag/v0.1.0](релиза)
 2. Открыть терминал в папке с файлом
 3. Назначить файл исполняемым:
