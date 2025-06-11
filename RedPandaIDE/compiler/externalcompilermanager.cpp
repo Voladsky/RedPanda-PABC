@@ -126,7 +126,7 @@ void ExternalCompilerManager::sendMessage(const std::string& message)
 
 void ExternalCompilerManager::error(const QString& msg)
 {
-    QRegularExpression regex(R"(^\[([^\]]+)\]\[(\d+),(\d+)\]\s+(.*?):\s+(.*)\[1\])");
+    QRegularExpression regex(R"(^\[([^\]]+)\]\[(\d+),(\d+)\]\s+(.*?):\s+(.*)(\[1\])*)");
     QRegularExpressionMatchIterator i = regex.globalMatch(msg);
     while (i.hasNext()) {
         QRegularExpressionMatch match = i.next();
