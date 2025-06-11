@@ -5990,7 +5990,8 @@ void MainWindow::onCompileFinished(QString filename, bool isCheckSyntax)
         }
 
       // check syntax in back, don't change message panel
-    } else if (ui->tableIssues->count() == 0) {
+    }
+    if ((!isCheckSyntax || filename.endsWith(".pas")) && ui->tableIssues->count() == 0) {
         // Close it if there's nothing to show
         if (ui->tabMessages->currentIndex() == i)
             stretchMessagesPanel(false);
