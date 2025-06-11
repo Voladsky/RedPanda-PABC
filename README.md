@@ -22,4 +22,16 @@
    ./release_linux_portable.AppImage 
    ```
 
+Если получаете ошибку отсутствия FUSE, доустановите `libfuse2` пакетным менеджером своего дистрибутива. Для Ubuntu/Debian это:
+```bash
+sudo apt install libfuse2
+```
+
+Если не получается установить FUSE, AppImage можно распаковать и запустить бинарный файл напрямую:
+```bash
+./release_linux_portable.AppImage --appimage-extract
+cd squashfs-root/usr/bin
+./RedPandaIDE
+```
+
 --
