@@ -412,24 +412,25 @@ int main(int argc, char *argv[])
         pSettings->load();
         if (firstRun) {
             //set theme
-            ChooseThemeDialog themeDialog;
-            themeDialog.setFont(QFont(defaultUiFont(),11));
-            themeDialog.exec();
-            switch (themeDialog.theme()) {
-            case ChooseThemeDialog::Theme::AutoFollowSystem:
-                setTheme("system");
-                break;
-            case ChooseThemeDialog::Theme::Dark:
-                setTheme("dark");
-                break;
-            case ChooseThemeDialog::Theme::Light:
-                setTheme("default");
-                break;
-            default:
-                setTheme("default");
-            }
+            setTheme("default");
+            // ChooseThemeDialog themeDialog;
+            // themeDialog.setFont(QFont(defaultUiFont(),11));
+            // themeDialog.exec();
+            // switch (themeDialog.theme()) {
+            // case ChooseThemeDialog::Theme::AutoFollowSystem:
+            //     setTheme("system");
+            //     break;
+            // case ChooseThemeDialog::Theme::Dark:
+            //     setTheme("dark");
+            //     break;
+            // case ChooseThemeDialog::Theme::Light:
+            //     setTheme("default");
+            //     break;
+            // default:
+            //     setTheme("default");
+            // }
 
-            pSettings->editor().setDefaultFileCpp(themeDialog.language()==ChooseThemeDialog::Language::CPlusPlus);
+            pSettings->editor().setDefaultFileCpp(true);
             pSettings->editor().save();
 
             //auto detect git in path

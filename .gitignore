@@ -3,6 +3,7 @@
 /assets
 /dist
 /packages/appimage/*/*.AppImage
+PascalABCNETLinux/
 .xmake/
 build/
 *.bak
@@ -10,3 +11,4 @@ build/
 *.dll
 *.exe
 *.dat
+

@@ -6006,6 +6006,9 @@ void MainWindow::onCompileFinished(QString filename, bool isCheckSyntax)
         e->invalidate();
     }
 
+    if (mCompileSuccessionTask && filename.endsWith(".pas") && ui->tableIssues->count() == 0) {
+        runExecutable(mCompileSuccessionTask->execName, QString(), RunType::Normal, mCompileSuccessionTask->binDirs);
+    }
     if (!isCheckSyntax) {
         //run succession task if there aren't any errors
         if (mCompileSuccessionTask && mCompilerManager->compileErrorCount()==0) {
