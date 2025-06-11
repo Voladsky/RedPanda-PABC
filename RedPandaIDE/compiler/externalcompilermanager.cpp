@@ -128,7 +128,6 @@ void ExternalCompilerManager::error(const QString& msg)
 {
     QRegularExpression regex(R"(^\[([^\]]+)\]\[(\d+),(\d+)\]\s+(.*?):\s+(.*)\[1\])");
     QRegularExpressionMatchIterator i = regex.globalMatch(msg);
-
     while (i.hasNext()) {
         QRegularExpressionMatch match = i.next();
         if (match.hasMatch()) {
@@ -138,7 +137,6 @@ void ExternalCompilerManager::error(const QString& msg)
             issue->filename = match.captured(4);
             issue->description = match.captured(5);
             issue->type = CompileIssueType::Error;
-
             pMainWindow->onCompileIssue(issue);
         }
     }

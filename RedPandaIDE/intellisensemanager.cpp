@@ -131,7 +131,7 @@ void IntelliSenseManager::didChange(const QString& filename, const QString& full
 
 void IntelliSenseManager::startIntelli() {
 #ifdef Q_OS_WINDOWS
-    QString path_to_pas = "PascalABCNET\\pabcnetc.exe";
+    QString path_to_pas = QCoreApplication::applicationDirPath() + "\\..\\PascalABCNETLinux\\LSPProxy\\TestIntelli.exe";
     compilerProcess->setProgram(path_to_pas);
     compilerProcess->setProcessChannelMode(QProcess::SeparateChannels);
     compilerProcess->setArguments(QStringList() << "/noconsole" << "commandmode");
@@ -143,6 +143,11 @@ void IntelliSenseManager::startIntelli() {
 #endif
 
     compilerProcess->start();
+    QObject::connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, [this]() {
+        if (compilerProcess->state() == QProcess::Running) {
+            compilerProcess->terminate();
+        }});
+
     if (!compilerProcess->waitForStarted()) {
         qDebug() << "Failed to start process!";
     } else {
