@@ -85,6 +85,7 @@ void ExternalCompilerManager::killCompiler()
 void ExternalCompilerManager::restartCompiler()
 {
     killCompiler();
+    compilerProcess->waitForFinished();
     startCompiler();
 }
 
@@ -146,8 +147,17 @@ void ExternalCompilerManager::error(const QString& msg)
 
 void ExternalCompilerManager::compile(const QString& filepath)
 {
+    if (compilerProcess->state() != QProcess::Running) {
+        compilerProcess->waitForStarted();
+    }
     std::string message = "215#5#" + filepath.toStdString();
     sendMessage(message);
     sendMessage("210");
     pMainWindow->onCompileFinished(filepath, true);
+}
+
+void ExternalCompilerManager::scheduleRestart(int msecs) {
+    timer.setInterval(msecs);
+    connect(&timer, &QTimer::timeout, this, &ExternalCompilerManager::restartCompiler);
+    timer.start();
 }

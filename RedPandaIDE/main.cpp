@@ -294,6 +294,7 @@ int main(int argc, char *argv[])
     // START THE PABCNET COMPILER
     IntelliSenseManager::instance().startIntelli();
     ExternalCompilerManager::instance().startCompiler();
+    ExternalCompilerManager::instance().scheduleRestart(90000);
 
     // START THE INTELLI SENSE
     IntelliSenseManager::instance().connectEvents();

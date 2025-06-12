@@ -1207,7 +1207,7 @@
 <context>
     <name>Editor</name>
     <message>
-        <location filename="../editor.cpp" line="+385"/>
+        <location filename="../editor.cpp" line="+386"/>
         <location line="+70"/>
         <location line="+29"/>
         <source>Error</source>
@@ -1224,14 +1224,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2916"/>
+        <location line="+2940"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+750"/>
-        <location line="+25"/>
-        <location line="+46"/>
+        <location line="+764"/>
+        <location line="+28"/>
+        <location line="+47"/>
         <source>Ctrl+click for more info</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1277,13 +1277,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-5435"/>
-        <location line="+506"/>
+        <location line="-5477"/>
+        <location line="+508"/>
         <source>Error Load File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1560"/>
+        <location line="+1582"/>
         <source>hex: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2134,76 +2134,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+197"/>
         <source>Font:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+227"/>
+        <location line="-132"/>
         <source>*Needs restart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+118"/>
         <source>Theme:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-7"/>
         <source>Language:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+57"/>
-        <source>OpenType font variation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Italic [ital]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Width [wdth]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Weight [wght]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <location line="+49"/>
-        <location line="+7"/>
-        <location line="+7"/>
-        <location line="+7"/>
-        <source>Reset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-63"/>
-        <source>Slant [slnt]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Optical size [opsz]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-317"/>
+        <location line="+28"/>
         <source>Font Size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+78"/>
+        <location line="-14"/>
         <source>Icon Set:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-53"/>
+        <location line="+39"/>
         <source>Create a customized copy</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2229,7 +2190,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="-218"/>
         <source>Use custom icon set</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2254,7 +2215,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settingsdialog/environmentappearancewidget.ui" line="-32"/>
+        <location line="+1"/>
+        <source>Russian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog/environmentappearancewidget.ui" line="+251"/>
         <source>Icon Zoom:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2710,14 +2676,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+42"/>
-        <location line="+93"/>
+        <location line="+46"/>
+        <location line="+101"/>
         <source>Can&apos;t delete the old executable file &quot;%1&quot;.
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-62"/>
+        <location line="-91"/>
+        <source>PascalABC.NET</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Can&apos;t find the compiler for file %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2742,12 +2713,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-121"/>
+        <location line="-130"/>
         <source>Checking single file...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+70"/>
         <source>GNU Assembler</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4061,7 +4032,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="+14"/>
-        <location filename="../mainwindow.cpp" line="+1325"/>
+        <location filename="../mainwindow.cpp" line="+1343"/>
         <source>Red Panda C++</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4100,15 +4071,15 @@
     <message>
         <location line="-1998"/>
         <location line="+3"/>
-        <location filename="../mainwindow.cpp" line="+1477"/>
-        <location line="+5827"/>
+        <location filename="../mainwindow.cpp" line="+1482"/>
+        <location line="+5832"/>
         <source>New Problem Set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+3"/>
-        <location filename="../mainwindow.cpp" line="-5791"/>
+        <location filename="../mainwindow.cpp" line="-5796"/>
         <source>Add Problem</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4123,26 +4094,26 @@
         <location line="+12"/>
         <location line="+3"/>
         <location filename="../mainwindow.cpp" line="-30"/>
-        <location line="+5876"/>
+        <location line="+5881"/>
         <source>Save Problem Set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+3"/>
-        <location filename="../mainwindow.cpp" line="-5870"/>
-        <location line="+5906"/>
+        <location filename="../mainwindow.cpp" line="-5875"/>
+        <location line="+5911"/>
         <source>Load Problem Set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+109"/>
         <location line="+1834"/>
-        <location filename="../mainwindow.cpp" line="-2798"/>
+        <location filename="../mainwindow.cpp" line="-2802"/>
         <location line="+3"/>
         <location line="+4"/>
         <location line="+3"/>
-        <location line="+2289"/>
+        <location line="+2293"/>
         <source>Issues</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4158,12 +4129,12 @@
         <location line="+1264"/>
         <location line="+3"/>
         <location line="+499"/>
-        <location filename="../mainwindow.cpp" line="-7752"/>
+        <location filename="../mainwindow.cpp" line="-7775"/>
         <location line="+1"/>
         <location line="+1"/>
         <location line="+1"/>
         <location line="+1"/>
-        <location line="+7306"/>
+        <location line="+7329"/>
         <source>Debug</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4174,7 +4145,7 @@
     </message>
     <message>
         <location line="+41"/>
-        <location filename="../mainwindow.cpp" line="-5838"/>
+        <location filename="../mainwindow.cpp" line="-5847"/>
         <source>Debug Console</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4207,7 +4178,7 @@
         <location line="-1039"/>
         <location line="+1078"/>
         <location line="+1505"/>
-        <location filename="../mainwindow.cpp" line="+5835"/>
+        <location filename="../mainwindow.cpp" line="+5844"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4252,7 +4223,7 @@
         <location line="-1274"/>
         <location line="+43"/>
         <location line="+1239"/>
-        <location filename="../mainwindow.cpp" line="-4878"/>
+        <location filename="../mainwindow.cpp" line="-4883"/>
         <location line="+7"/>
         <location line="+7"/>
         <source>Problem</source>
@@ -4351,7 +4322,7 @@
     <message>
         <location line="+55"/>
         <location line="+163"/>
-        <location filename="../mainwindow.cpp" line="+4271"/>
+        <location filename="../mainwindow.cpp" line="+4276"/>
         <location line="+1"/>
         <location line="+1"/>
         <location line="+1"/>
@@ -4499,7 +4470,7 @@
     </message>
     <message>
         <location line="+9"/>
-        <location filename="../mainwindow.cpp" line="-4840"/>
+        <location filename="../mainwindow.cpp" line="-4845"/>
         <location line="+28"/>
         <location line="+200"/>
         <source>Copy</source>
@@ -4846,7 +4817,7 @@
     </message>
     <message>
         <location line="+5"/>
-        <location filename="../mainwindow.cpp" line="+3697"/>
+        <location filename="../mainwindow.cpp" line="+3702"/>
         <source>Clear all breakpoints</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5215,25 +5186,25 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="-8378"/>
+        <location filename="../mainwindow.cpp" line="-8401"/>
         <location line="+62"/>
         <location line="+9"/>
         <location line="+8"/>
         <location line="+9"/>
         <location line="+61"/>
-        <location line="+1370"/>
-        <location line="+1806"/>
+        <location line="+1384"/>
+        <location line="+1810"/>
         <location line="+117"/>
         <location line="+1792"/>
         <location line="+150"/>
-        <location line="+703"/>
+        <location line="+708"/>
         <location line="+12"/>
         <location line="+3389"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-9482"/>
+        <location line="-9505"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5259,18 +5230,18 @@
     </message>
     <message>
         <location line="+79"/>
-        <location line="+8292"/>
+        <location line="+8315"/>
         <source>Problem Set %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-7641"/>
+        <location line="-7660"/>
         <location line="+7"/>
         <source>Load Theme Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+334"/>
+        <location line="+343"/>
         <location line="+2"/>
         <location line="+30"/>
         <location line="+2"/>
@@ -5321,7 +5292,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+680"/>
+        <location line="+685"/>
         <source>Source file is not compiled.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5404,7 +5375,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-1603"/>
+        <location line="-1608"/>
         <source> - Command: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5424,7 +5395,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1244"/>
+        <location line="+1249"/>
         <source>Open Source File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5561,12 +5532,12 @@
         <location line="+1455"/>
         <location line="+7"/>
         <location line="+6"/>
-        <location line="+3036"/>
+        <location line="+3041"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-4496"/>
+        <location line="-4501"/>
         <source>Open in Editor</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5602,22 +5573,22 @@
     </message>
     <message>
         <location line="+6"/>
-        <location line="+2643"/>
+        <location line="+2648"/>
         <location line="+14"/>
         <location line="+3341"/>
         <source>Confirm Convertion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-5997"/>
-        <location line="+2643"/>
+        <location line="-6002"/>
+        <location line="+2648"/>
         <location line="+14"/>
         <location line="+3341"/>
         <source>The editing file will be saved using %1 encoding. &lt;br /&gt;This operation can&apos;t be reverted. &lt;br /&gt;Are you sure to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-5877"/>
+        <location line="-5882"/>
         <source>%1 files autosaved</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5654,12 +5625,12 @@
     </message>
     <message>
         <location line="+2"/>
-        <location line="+1469"/>
+        <location line="+1470"/>
         <source>Do you really want to do that?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-1460"/>
+        <location line="-1461"/>
         <source>Choose input files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5674,12 +5645,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4350"/>
+        <location line="+4355"/>
         <source>Problem Case %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-4224"/>
+        <location line="-4229"/>
         <source>New Folder %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5706,20 +5677,20 @@
     </message>
     <message>
         <location line="+41"/>
-        <location line="+3814"/>
+        <location line="+3819"/>
         <location line="+1707"/>
         <source>Bookmark Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-5520"/>
-        <location line="+3814"/>
+        <location line="-5525"/>
+        <location line="+3819"/>
         <location line="+1707"/>
         <source>Description:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-5268"/>
+        <location line="-5273"/>
         <location line="+3"/>
         <source>New folder</source>
         <translation type="unfinished"></translation>
@@ -5730,7 +5701,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2771"/>
+        <location line="+2776"/>
         <source>Break point condition</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5740,7 +5711,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-2406"/>
+        <location line="-2411"/>
         <source>Save project</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5751,12 +5722,12 @@
     </message>
     <message>
         <location line="+2"/>
-        <location line="+3285"/>
+        <location line="+3290"/>
         <source>Do you want to save it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-3179"/>
+        <location line="-3184"/>
         <location line="+18"/>
         <source>File Changed</source>
         <translation type="unfinished"></translation>
@@ -5783,34 +5754,34 @@
     </message>
     <message>
         <location line="+86"/>
-        <location line="+4406"/>
+        <location line="+4411"/>
         <location line="+68"/>
         <source>New Project File?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-4473"/>
-        <location line="+4406"/>
+        <location line="-4478"/>
+        <location line="+4411"/>
         <location line="+68"/>
         <source>Do you want to add the new file to the project?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-4426"/>
+        <location line="-4431"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+50"/>
         <location line="+13"/>
         <location line="+11"/>
         <location line="+10"/>
-        <location line="+3025"/>
+        <location line="+3029"/>
         <source>Save Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-2880"/>
+        <location line="-2884"/>
         <source>Change Project Compiler Set</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5820,7 +5791,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+153"/>
+        <location line="+157"/>
         <location line="+105"/>
         <source>Compile Failed</source>
         <translation type="unfinished"></translation>
@@ -6170,7 +6141,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-3623"/>
+        <location line="-3628"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6195,7 +6166,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="+6659"/>
+        <location filename="../mainwindow.cpp" line="+6664"/>
         <source>Go to Line</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6225,35 +6196,35 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-7385"/>
+        <location line="-7390"/>
         <location line="+207"/>
-        <location line="+3396"/>
+        <location line="+3401"/>
         <location line="+7"/>
         <source>Wrong Compiler Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-3609"/>
+        <location line="-3614"/>
         <location line="+207"/>
-        <location line="+3396"/>
+        <location line="+3401"/>
         <location line="+7"/>
         <source>Compiler is set not to generate executable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-3609"/>
-        <location line="+3603"/>
+        <location line="-3614"/>
+        <location line="+3608"/>
         <source>We need the executabe to run problem case.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-3396"/>
-        <location line="+3403"/>
+        <location line="-3401"/>
+        <location line="+3408"/>
         <source>Please correct this before start debugging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-2659"/>
+        <location line="-2664"/>
         <source>Can&apos;t open last open information file &apos;%1&apos; for write!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6305,12 +6276,12 @@
     <message>
         <location line="-2195"/>
         <location filename="../mainwindow.cpp" line="-261"/>
-        <location line="+7061"/>
+        <location line="+7066"/>
         <source>Import FPS Problem Set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="-7030"/>
+        <location filename="../mainwindow.cpp" line="-7035"/>
         <source>Rename Problem</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6320,7 +6291,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+7026"/>
+        <location line="+7031"/>
         <source>FPS Problem Set Files (*.fps;*.xml)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6331,8 +6302,8 @@
     </message>
     <message>
         <location line="-2191"/>
-        <location filename="../mainwindow.cpp" line="-7057"/>
-        <location line="+7086"/>
+        <location filename="../mainwindow.cpp" line="-7062"/>
+        <location line="+7091"/>
         <source>Export FPS Problem Set</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6347,7 +6318,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-7117"/>
+        <location line="-7122"/>
         <source>Rename Problem Set</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6397,7 +6368,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="+2266"/>
+        <location filename="../mainwindow.cpp" line="+2271"/>
         <source>Failed to generate the executable.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6412,7 +6383,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="-755"/>
+        <location filename="../mainwindow.cpp" line="-760"/>
         <source>The executable doesn&apos;t have symbol table, and can&apos;t be debugged.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6442,7 +6413,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4722"/>
+        <location line="+4727"/>
         <source>Watchpoint variable name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6452,7 +6423,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-4726"/>
+        <location line="-4731"/>
         <source>Watchpoint hitted</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6477,7 +6448,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="-3064"/>
+        <location filename="../mainwindow.cpp" line="-3069"/>
         <source>Missing Project Files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6487,7 +6458,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3423"/>
+        <location line="+3429"/>
         <source>Save settings failed!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6497,7 +6468,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="-166"/>
+        <location filename="../mainwindow.cpp" line="-167"/>
         <source>Project folder removed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6675,7 +6646,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="-5109"/>
+        <location filename="../mainwindow.cpp" line="-5127"/>
         <source>Exact</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6690,7 +6661,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+6960"/>
+        <location line="+6983"/>
         <source>Folder Not Empty</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6705,7 +6676,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-5492"/>
+        <location line="-5502"/>
         <source>Line: %1/%2 Char: %3/%4</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7949,7 +7920,7 @@
 <context>
     <name>QApplication</name>
     <message>
-        <location filename="../main.cpp" line="+475"/>
+        <location filename="../main.cpp" line="+501"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8208,7 +8179,7 @@
     </message>
     <message>
         <location line="+6"/>
-        <location filename="../main.cpp" line="-241"/>
+        <location filename="../main.cpp" line="-263"/>
         <location line="+7"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
@@ -8241,8 +8212,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../editorlist.cpp" line="+178"/>
-        <location filename="../mainwindow.cpp" line="+2017"/>
+        <location filename="../editorlist.cpp" line="+181"/>
+        <location filename="../mainwindow.cpp" line="+2022"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8263,7 +8234,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+206"/>
         <source>Can&apos;t load autolink settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8446,7 +8417,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utils.cpp" line="+538"/>
+        <location filename="../utils.cpp" line="+541"/>
         <source>bytes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9455,7 +9426,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="+5274"/>
+        <location filename="../mainwindow.cpp" line="+5279"/>
         <location filename="../settingsdialog/settingsdialog.cpp" line="+33"/>
         <location line="+41"/>
         <location line="+6"/>
@@ -9515,9 +9486,9 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="-6544"/>
+        <location filename="../mainwindow.cpp" line="-6549"/>
         <location line="+123"/>
-        <location line="+7125"/>
+        <location line="+7130"/>
         <location line="+5"/>
         <location filename="../settingsdialog/settingsdialog.cpp" line="+10"/>
         <location line="+95"/>
@@ -9525,8 +9496,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-7129"/>
-        <location line="+7125"/>
+        <location line="-7134"/>
+        <location line="+7130"/>
         <location filename="../settingsdialog/settingsdialog.cpp" line="-95"/>
         <location line="+3"/>
         <source>Compiler</source>
@@ -9635,8 +9606,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="-7248"/>
-        <location line="+7253"/>
+        <location filename="../mainwindow.cpp" line="-7253"/>
+        <location line="+7258"/>
         <location filename="../settingsdialog/settingsdialog.cpp" line="+2"/>
         <location line="+3"/>
         <location line="+3"/>

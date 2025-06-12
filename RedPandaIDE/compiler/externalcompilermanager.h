@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QProcess>
+#include <QTimer>
 #include <zmq.hpp>
 
 class ExternalCompilerManager : public QObject
@@ -19,6 +20,7 @@ public:
     void restartCompiler();
     void compile(const QString& filepath);
     QString findPascalABCNET(const QString& exename);
+    void scheduleRestart(int msecs);
 
 private:
     explicit ExternalCompilerManager(QObject *parent = nullptr);
@@ -27,6 +29,7 @@ private:
     void sendMessage(const std::string& message);
 
     QProcess* compilerProcess;
+    QTimer timer;
     zmq::context_t context;
     zmq::socket_t requester;
 };
