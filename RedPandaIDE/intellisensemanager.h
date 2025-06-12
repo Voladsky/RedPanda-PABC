@@ -47,7 +47,7 @@ private:
     // Member variables
     QHash<QString, int> documentVersions; // Tracks document versions
     int requestId = 0;
-    QProcess* compilerProcess = nullptr;
+    QProcess* intelliProcess = nullptr;
 
     // ZMQ communication
     zmq::context_t context;

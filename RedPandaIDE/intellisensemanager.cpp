@@ -12,7 +12,7 @@ IntelliSenseManager::IntelliSenseManager(QObject *parent)
     : QObject{parent}, requestId(0), context(1),
     requester(context, zmq::socket_type::req)
 {
-    compilerProcess = new QProcess(this);
+    intelliProcess = new QProcess(this);
     requester.connect("tcp://127.0.0.1:5557");
     requester.set(zmq::sockopt::reconnect_ivl, 100);    // 100ms between retries
     requester.set(zmq::sockopt::reconnect_ivl_max, 5000); // Max 5s delay
@@ -69,6 +69,9 @@ void IntelliSenseManager::initializeLSP(const QString& filename) {
 }
 
 QStringList IntelliSenseManager::callIntelli(const QSynedit::BufferCoord& pos, const QString& filename, const QString& request_type) {
+    if (intelliProcess->state() != QProcess::Running) {
+        return QStringList();
+    }
     QJsonObject lspPosition{
         {"line", pos.line - 1},
         {"character", pos.ch - 1}
@@ -137,18 +140,18 @@ void IntelliSenseManager::startIntelli() {
     compilerProcess->setArguments(QStringList() << "/noconsole" << "commandmode");
 #else
     QString path_to_mono = "mono";
-    compilerProcess->setProgram(path_to_mono);
+    intelliProcess->setProgram(path_to_mono);
     QString path_to_pas = ExternalCompilerManager::instance().findPascalABCNET("LSPProxy/TestIntelli.exe");
-    compilerProcess->setArguments(QStringList() << path_to_pas);
+    intelliProcess->setArguments(QStringList() << path_to_pas);
 #endif
 
-    compilerProcess->start();
+    intelliProcess->start();
     QObject::connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, [this]() {
-        if (compilerProcess->state() == QProcess::Running) {
-            compilerProcess->terminate();
+        if (intelliProcess->state() == QProcess::Running) {
+            intelliProcess->terminate();
         }});
 
-    if (!compilerProcess->waitForStarted()) {
+    if (!intelliProcess->waitForStarted()) {
         qDebug() << "Failed to start process!";
     } else {
         qDebug() << "INTELLISENSE Process started successfully.";

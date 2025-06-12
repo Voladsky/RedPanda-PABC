@@ -353,8 +353,13 @@ int main(int argc, char *argv[])
     {
         QSettings languageSetting(settingFilename,QSettings::IniFormat);
         languageSetting.beginGroup(SETTING_ENVIRONMENT);
-        language = languageSetting.value("language",QLocale::system().name()).toString();
-
+        // TODO: maybe better options to set russian as default
+        if (firstRun) {
+            language = "ru_RU";
+        }
+        else {
+            language = languageSetting.value("language",QLocale::system().name()).toString();
+        }
         if (trans.load("RedPandaIDE_"+language,":/i18n/")) {
             app.installTranslator(&trans);
         }

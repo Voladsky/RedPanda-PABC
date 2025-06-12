@@ -97,7 +97,7 @@ void ExternalCompilerManager::sendMessage(const std::string& message)
         requester.send(msg, zmq::send_flags::none);
 
         zmq::pollitem_t items[] = {{static_cast<void*>(requester), 0, ZMQ_POLLIN, 0}};
-        zmq::poll(items, 1, 10000);
+        zmq::poll(items, 1, 15000);
 
         if (items[0].revents & ZMQ_POLLIN) {
             zmq::message_t reply;
@@ -145,9 +145,6 @@ void ExternalCompilerManager::error(const QString& msg)
 
 void ExternalCompilerManager::compile(const QString& filepath)
 {
-    if (compilerProcess->state() != QProcess::Running) {
-        compilerProcess->waitForStarted();
-    }
     std::string message = "215#5#" + filepath.toStdString();
     sendMessage(message);
     sendMessage("210");
