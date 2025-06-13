@@ -69,9 +69,6 @@ void IntelliSenseManager::initializeLSP(const QString& filename) {
 }
 
 QStringList IntelliSenseManager::callIntelli(const QSynedit::BufferCoord& pos, const QString& filename, const QString& request_type) {
-    if (intelliProcess->state() != QProcess::Running) {
-        return QStringList();
-    }
     QJsonObject lspPosition{
         {"line", pos.line - 1},
         {"character", pos.ch - 1}
@@ -135,9 +132,9 @@ void IntelliSenseManager::didChange(const QString& filename, const QString& full
 void IntelliSenseManager::startIntelli() {
 #ifdef Q_OS_WINDOWS
     QString path_to_pas = QCoreApplication::applicationDirPath() + "\\..\\PascalABCNETLinux\\LSPProxy\\TestIntelli.exe";
-    compilerProcess->setProgram(path_to_pas);
-    compilerProcess->setProcessChannelMode(QProcess::SeparateChannels);
-    compilerProcess->setArguments(QStringList() << "/noconsole" << "commandmode");
+    intelliProcess->setProgram(path_to_pas);
+    intelliProcess->setProcessChannelMode(QProcess::SeparateChannels);
+    intelliProcess->setArguments(QStringList() << "/noconsole" << "commandmode");
 #else
     QString path_to_mono = "mono";
     intelliProcess->setProgram(path_to_mono);

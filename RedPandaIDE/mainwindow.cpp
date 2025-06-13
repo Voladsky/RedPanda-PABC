@@ -1140,12 +1140,46 @@ void MainWindow::applyUISettings()
 }
 
 void MainWindow::hideUIElements() {
+    // Remove file explorer dock
     ui->dockExplorer->setDisabled(true);
     ui->dockExplorer->setVisible(false);
 
-
     ui->toolbarDebug->setDisabled(true);
     ui->toolbarDebug->setVisible(false);
+
+    // remove debug and generate assembly from execute meny
+    for (auto& act: ui->toolbarDebug->actions()) {
+        ui->menuExecute->removeAction(act);
+    }
+    ui->menuExecute->removeAction(ui->actionGenerate_Assembly);
+    ui->menuExecute->removeAction(ui->actionView_CPU_Window);
+    ui->menuExecute->removeAction(ui->actionAdd_Watch);
+
+    // remove "very useful" C/C++/raylib/assembly references help menus
+    for (auto& act: ui->menuHelp->actions()) {
+        if (act != ui->actionAbout) {
+            ui->menuHelp->removeAction(act);
+        }
+    }
+
+    // remove refactor and project menus
+    ui->menubar->removeAction(ui->menuRefactor->menuAction());
+    ui->menubar->removeAction(ui->menuProject->menuAction());
+    ui->toolbarCode->removeAction(ui->actionReformat_Code);
+
+    // remove tabs in the bottom
+    ui->tabMessages->removeTab(ui->tabMessages->indexOf(ui->tabDebug));
+    ui->tabMessages->removeTab(ui->tabMessages->indexOf(ui->tabSearch));
+    ui->tabMessages->removeTab(ui->tabMessages->indexOf(ui->tabTODO));
+    ui->tabMessages->removeTab(ui->tabMessages->indexOf(ui->tabBookmark));
+    ui->tabMessages->removeTab(ui->tabMessages->indexOf(ui->tabProblem));
+
+    // set appropriate settings so tabs in the bottom wont show ever
+    pSettings->ui().setShowProblem(false);
+    pSettings->ui().setShowBookmark(false);
+    pSettings->ui().setShowDebug(false);
+    pSettings->ui().setShowTODO(false);
+    // ui->menuRefactor->setDisabled(true);
 }
 
 QFileSystemWatcher *MainWindow::fileSystemWatcher()

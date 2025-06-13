@@ -127,16 +127,16 @@ void ExternalCompilerManager::sendMessage(const std::string& message)
 
 void ExternalCompilerManager::error(const QString& msg)
 {
-    QRegularExpression regex(R"(^\[([^\]]+)\]\[(\d+),(\d+)\]\s+(.*?):\s+(.*)(\[1\])*)");
+    QRegularExpression regex(R"(\[0\]\[(\d+),(\d+)\]\s+(.:.*?:)\s+(.*?)(?=\s*\[\d+\]|$))");
     QRegularExpressionMatchIterator i = regex.globalMatch(msg);
     while (i.hasNext()) {
         QRegularExpressionMatch match = i.next();
         if (match.hasMatch()) {
             PCompileIssue issue = std::make_shared<CompileIssue>();
-            issue->line = match.captured(2).toInt();
-            issue->column = match.captured(3).toInt();
-            issue->filename = match.captured(4);
-            issue->description = match.captured(5);
+            issue->line = match.captured(1).toInt();
+            issue->column = match.captured(2).toInt();
+            issue->filename = match.captured(3);
+            issue->description = match.captured(4);
             issue->type = CompileIssueType::Error;
             pMainWindow->onCompileIssue(issue);
         }
