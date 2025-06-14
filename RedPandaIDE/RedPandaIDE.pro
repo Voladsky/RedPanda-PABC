@@ -3,6 +3,8 @@ QT       += core gui printsupport network svg xml widgets
 CONFIG += c++17
 CONFIG += nokey
 
+CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
+
 win32: CONFIG += lrelease_dosdevice
 else: CONFIG += lrelease
 CONFIG += embed_translations
@@ -553,9 +555,10 @@ linux: {
 }
 
 TRANSLATIONS += \
+    translations/RedPandaIDE_ru_RU.ts \
     translations/RedPandaIDE_zh_CN.ts \
     translations/RedPandaIDE_zh_TW.ts \
-    translations/RedPandaIDE_pt_BR.ts
+    translations/RedPandaIDE_pt_BR.ts \
 
 win32: {
     !isEmpty(PREFIX) {

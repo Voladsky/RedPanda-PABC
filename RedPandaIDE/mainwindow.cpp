@@ -1140,12 +1140,45 @@ void MainWindow::applyUISettings()
 }
 
 void MainWindow::hideUIElements() {
+    // remove file explorer dock
     ui->dockExplorer->setDisabled(true);
     ui->dockExplorer->setVisible(false);
 
-
+    // remove debug buttons near compile
     ui->toolbarDebug->setDisabled(true);
     ui->toolbarDebug->setVisible(false);
+
+    // remove debug and generate assembly from execute menu
+    for (auto& act: ui->toolbarDebug->actions()) {
+        ui->menuExecute->removeAction(act);
+    }
+    ui->menuExecute->removeAction(ui->actionGenerate_Assembly);
+    ui->menuExecute->removeAction(ui->actionView_CPU_Window);
+    ui->menuExecute->removeAction(ui->actionAdd_Watch);
+
+    // remove "very useful" C/C++/raylib/assembly references help menus
+    for (auto& act: ui->menuHelp->actions()) {
+        if (act != ui->actionAbout) {
+            ui->menuHelp->removeAction(act);
+        }
+    }
+
+    // remove refactor and project menus
+    ui->menubar->removeAction(ui->menuRefactor->menuAction());
+    ui->menubar->removeAction(ui->menuProject->menuAction());
+    ui->toolbarCode->removeAction(ui->actionReformat_Code);
+
+    // remove tabs in the bottom
+    ui->tabMessages->removeTab(ui->tabMessages->indexOf(ui->tabDebug));
+    ui->tabMessages->removeTab(ui->tabMessages->indexOf(ui->tabTODO));
+    ui->tabMessages->removeTab(ui->tabMessages->indexOf(ui->tabBookmark));
+    ui->tabMessages->removeTab(ui->tabMessages->indexOf(ui->tabProblem));
+
+    // set appropriate settings so tabs in the bottom wont show ever
+    pSettings->ui().setShowProblem(false);
+    pSettings->ui().setShowBookmark(false);
+    pSettings->ui().setShowDebug(false);
+    pSettings->ui().setShowTODO(false);
 }
 
 QFileSystemWatcher *MainWindow::fileSystemWatcher()
@@ -5990,7 +6023,8 @@ void MainWindow::onCompileFinished(QString filename, bool isCheckSyntax)
         }
 
       // check syntax in back, don't change message panel
-    } else if (ui->tableIssues->count() == 0) {
+    }
+    if ((!isCheckSyntax || filename.endsWith(".pas")) && ui->tableIssues->count() == 0) {
         // Close it if there's nothing to show
         if (ui->tabMessages->currentIndex() == i)
             stretchMessagesPanel(false);
@@ -6006,6 +6040,9 @@ void MainWindow::onCompileFinished(QString filename, bool isCheckSyntax)
         e->invalidate();
     }
 
+    if (mCompileSuccessionTask && filename.endsWith(".pas") && ui->tableIssues->count() == 0) {
+        runExecutable(mCompileSuccessionTask->execName, QString(), RunType::Normal, mCompileSuccessionTask->binDirs);
+    }
     if (!isCheckSyntax) {
         //run succession task if there aren't any errors
         if (mCompileSuccessionTask && mCompilerManager->compileErrorCount()==0) {

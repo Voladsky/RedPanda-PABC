@@ -31,8 +31,8 @@ IssuesTable::IssuesTable(QWidget *parent):
     this->setModel(mModel);
     delete m;
     this->setColumnWidth(0,200);
-    this->setColumnWidth(1,45);
-    this->setColumnWidth(2,45);
+    this->setColumnWidth(1,70);
+    this->setColumnWidth(2,70);
 }
 
 const QVector<PCompileIssue> &IssuesTable::issues() const

@@ -4,20 +4,17 @@
 #include <QCoreApplication>
 #include <QJsonArray>
 #include <zmq.hpp>
-#include "mainwindow.h"
 #include "qsynedit/qsynedit.h"
 #include "editor.h"
-#include "editorlist.h"
-#include "editor.h"
-
+#include "compiler/externalcompilermanager.h"
 
 IntelliSenseManager::IntelliSenseManager(QObject *parent)
     : QObject{parent}, requestId(0), context(1),
     requester(context, zmq::socket_type::req)
 {
-    compilerProcess = new QProcess(this);
+    intelliProcess = new QProcess(this);
     requester.connect("tcp://127.0.0.1:5557");
-    requester.set(zmq::sockopt::reconnect_ivl, 100); // 100ms between retries
+    requester.set(zmq::sockopt::reconnect_ivl, 100);    // 100ms between retries
     requester.set(zmq::sockopt::reconnect_ivl_max, 5000); // Max 5s delay
 }
 
@@ -33,92 +30,81 @@ void IntelliSenseManager::connectEvents() {
 
 void IntelliSenseManager::initializeLSP(const QString& filename) {
     QJsonObject lspParams;
-
-    // Process ID of the current application
     lspParams["processId"] = static_cast<int>(QCoreApplication::applicationPid());
 
-    // Provide a valid rootUri based on the file's directory
     QUrl rootUrl = QUrl::fromLocalFile(QFileInfo(filename).canonicalFilePath());
-    lspParams["rootUri"] = rootUrl.toString();  // e.g., file:///path/to/project
+    lspParams["rootUri"] = rootUrl.toString();
 
-    // Define basic client capabilities
-    QJsonObject synchronization;
-    synchronization["didSave"] = true;
-    synchronization["willSave"] = true;
-    synchronization["willSaveWaitUntil"] = false;
+    // Define capabilities
+    QJsonObject synchronization{
+        {"didSave", true},
+        {"willSave", true},
+        {"willSaveWaitUntil", false}
+    };
 
-    QJsonObject completionItem;
-    completionItem["snippetSupport"] = true;
+    QJsonObject completionItem{
+        {"snippetSupport", true}
+    };
 
-    QJsonObject completion;
-    completion["completionItem"] = completionItem;
+    QJsonObject textDocument{
+        {"synchronization", synchronization},
+        {"completion", QJsonObject{{"completionItem", completionItem}}}
+    };
 
-    QJsonObject textDocument;
-    textDocument["synchronization"] = synchronization;
-    textDocument["completion"] = completion;
-
-    QJsonObject workspace;
-    workspace["applyEdit"] = true;
-
-    QJsonObject capabilities;
-    capabilities["workspace"] = workspace;
-    capabilities["textDocument"] = textDocument;
+    QJsonObject capabilities{
+        {"workspace", QJsonObject{{"applyEdit", true}}},
+        {"textDocument", textDocument}
+    };
 
     lspParams["capabilities"] = capabilities;
 
-    // Final JSON-RPC message
-    QJsonObject resultJSON;
-    resultJSON["jsonrpc"] = "2.0";
-    resultJSON["id"] = requestId++;
-    resultJSON["method"] = "initialize";
-    resultJSON["params"] = lspParams;
+    QJsonObject resultJSON{
+        {"jsonrpc", "2.0"},
+        {"id", requestId++},
+        {"method", "initialize"},
+        {"params", lspParams}
+    };
 
-    QString data = QJsonDocument(resultJSON).toJson(QJsonDocument::Compact);
-    sendMessage(data.toStdString());
-
-
+    sendMessage(QJsonDocument(resultJSON).toJson(QJsonDocument::Compact).toStdString());
 }
 
+QStringList IntelliSenseManager::callIntelli(const QSynedit::BufferCoord& pos, const QString& filename, const QString& request_type) {
+    QJsonObject lspPosition{
+        {"line", pos.line - 1},
+        {"character", pos.ch - 1}
+    };
 
-QStringList IntelliSenseManager::callIntelli(const QSynedit::BufferCoord& pos, const QString& filename, const QString request_type) {
-    QJsonObject lspPosition;
-    lspPosition["line"] = pos.line - 1;
-    lspPosition["character"] = pos.ch - 1;
+    QJsonObject textDocument{
+        {"uri", QUrl::fromLocalFile(QFileInfo(filename).canonicalFilePath()).toString()}
+    };
 
-    QJsonObject textDocument;
-
-    QUrl rootUrl = QUrl::fromLocalFile(QFileInfo(filename).canonicalFilePath());
-    textDocument["uri"] = rootUrl.toString();
-
-    QJsonObject lspParams;
-    lspParams["textDocument"] = textDocument;
-    lspParams["position"] = lspPosition;
-
-    QJsonObject resultJSON;
-    resultJSON["jsonrpc"] = "2.0";
-    resultJSON["id"] = requestId++;
-    resultJSON["method"] = "textDocument/"+ request_type;
-    resultJSON["params"] = lspParams;
+    QJsonObject resultJSON{
+        {"jsonrpc", "2.0"},
+        {"id", requestId++},
+        {"method", "textDocument/" + request_type},
+        {"params", QJsonObject{
+                       {"textDocument", textDocument},
+                       {"position", lspPosition}
+                   }}
+    };
 
     QString data = QJsonDocument(resultJSON).toJson(QJsonDocument::Compact);
     QString result = sendMessage(data.toStdString());
+
     if (request_type == "hover") {
         return QStringList() << QJsonDocument::fromJson(result.toUtf8()).object()["result"].toObject()["contents"].toObject()["value"].toString();
     } else if (request_type == "completion") {
         QStringList res;
-        QJsonDocument doc = QJsonDocument::fromJson(result.toUtf8());
+        QJsonArray resultArray = QJsonDocument::fromJson(result.toUtf8()).object()["result"].toArray();
 
-        QJsonArray resultArray = doc.object()["result"].toArray();
         for (const QJsonValue& item : resultArray) {
-            if (item.isObject()) {
-                QJsonObject itemObj = item.toObject();
-                if (itemObj.contains("label") && itemObj["label"].isString()) {
-                    res << itemObj["label"].toString();
-                }
+            if (item.isObject() && item.toObject().contains("label")) {
+                res << item.toObject()["label"].toString();
             }
         }
         return res;
     }
+    return QStringList() << "Nothing really happened.";
 }
 
 void IntelliSenseManager::didChange(const QString& filename, const QString& fulltext) {
@@ -126,69 +112,70 @@ void IntelliSenseManager::didChange(const QString& filename, const QString& full
         documentVersions[filename] = 0;
     }
 
-    // Build the JSON-RPC message
-    QJsonObject message {
+    QJsonObject message{
         {"jsonrpc", "2.0"},
         {"method", "textDocument/didChange"},
-        {"params", QJsonObject {
-                       {"textDocument", QJsonObject {
+        {"params", QJsonObject{
+                       {"textDocument", QJsonObject{
                                             {"uri", QUrl::fromLocalFile(QFileInfo(filename).canonicalFilePath()).toString()},
                                             {"version", ++documentVersions[filename]}
                                         }},
-                       {"contentChanges", QJsonArray {
-                                              QJsonObject {
-                                                  {"text", fulltext}
-                                              }
+                       {"contentChanges", QJsonArray{
+                                              QJsonObject{{"text", fulltext}}
                                           }}
                    }}
     };
 
-    // Convert to JSON
-    QJsonDocument doc(message);
-    QByteArray data = doc.toJson(QJsonDocument::Compact);
-
-    qDebug() << data;
-
-    sendMessage(data.toStdString());
+    sendMessage(QJsonDocument(message).toJson(QJsonDocument::Compact).toStdString());
 }
 
 void IntelliSenseManager::startIntelli() {
-    compilerProcess->setProgram("D:\\Sci\\TestIntelli\\bin\\Debug\\TestIntelli.exe");
-    /*compilerProcess->setArguments(QStringList() << "/noconsole" << "commandmode");*/
+#ifdef Q_OS_WINDOWS
+    QString path_to_pas = QCoreApplication::applicationDirPath() + "\\..\\PascalABCNETLinux\\LSPProxy\\TestIntelli.exe";
+    intelliProcess->setProgram(path_to_pas);
+    intelliProcess->setProcessChannelMode(QProcess::SeparateChannels);
+    intelliProcess->setArguments(QStringList() << "/noconsole" << "commandmode");
+#else
+    QString path_to_mono = "mono";
+    intelliProcess->setProgram(path_to_mono);
+    QString path_to_pas = ExternalCompilerManager::instance().findPascalABCNET("LSPProxy/TestIntelli.exe");
+    intelliProcess->setArguments(QStringList() << path_to_pas);
+#endif
 
-    // Connect signals for output and errors
-    //connect(compilerProcess, &QProcess::readyReadStandardOutput, this, &MainWindow::handlePascalOutput);
+    intelliProcess->start();
+    QObject::connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, [this]() {
+        if (intelliProcess->state() == QProcess::Running) {
+            intelliProcess->terminate();
+        }});
 
-    compilerProcess->start();
-    if (!compilerProcess->waitForStarted()) {
+    if (!intelliProcess->waitForStarted()) {
         qDebug() << "Failed to start process!";
     } else {
-        qDebug() << "IntelliSense Process started successfully.";
+        qDebug() << "INTELLISENSE Process started successfully.";
     }
 }
 
 void IntelliSenseManager::didOpen(const QString& filename, Editor* editor) {
-    QJsonObject textDocument;
-
     QUrl fileUrl = QUrl::fromLocalFile(QFileInfo(filename).canonicalFilePath());
-    textDocument["uri"] = fileUrl.toString(QUrl::FullyEncoded);
-    textDocument["languageId"] = "pas"; // Adjust based on file type
-    textDocument["version"] = 0;
-    textDocument["text"] = editor->text(); // Ensure this is the full file content
+    editor->setFilename(QFileInfo(filename).canonicalFilePath());
 
-    QJsonObject lspParams;
-    lspParams["textDocument"] = textDocument;
+    QJsonObject textDocument{
+        {"uri", fileUrl.toString(QUrl::FullyEncoded)},
+        {"languageId", "pas"},
+        {"version", 0},
+        {"text", editor->text()}
+    };
 
-    QJsonObject resultJSON;
-    resultJSON["jsonrpc"] = "2.0";
-    resultJSON["method"] = "textDocument/didOpen"; // No "id" needed for notifications
-    resultJSON["params"] = lspParams;
+    QJsonObject resultJSON{
+        {"jsonrpc", "2.0"},
+        {"method", "textDocument/didOpen"},
+        {"params", QJsonObject{{"textDocument", textDocument}}}
+    };
 
     sendMessage(QJsonDocument(resultJSON).toJson(QJsonDocument::Compact).toStdString());
 
-
     connect(editor, &QSynedit::QSynEdit::changeForIntelli, this, [this, filename](const QString& text) {
-         this->IntelliSenseManager::didChange(filename, text);
+        didChange(filename, text);
     });
 }
 
@@ -197,29 +184,19 @@ QString IntelliSenseManager::sendMessage(const std::string& message) {
         zmq::message_t msg(message.size());
         memcpy(msg.data(), message.c_str(), message.size());
         requester.send(msg, zmq::send_flags::none);
-        //Wait for the response with a timeout of 5 seconds
+
         zmq::pollitem_t items[] = {{static_cast<void*>(requester), 0, ZMQ_POLLIN, 0}};
         zmq::poll(items, 1, 10000);
 
         if (items[0].revents & ZMQ_POLLIN) {
             zmq::message_t reply;
-            auto received = requester.recv(reply);
-            if (received) {
+            if (requester.recv(reply)) {
                 std::string replyMessage(static_cast<char*>(reply.data()), reply.size());
-                QString qReplyMessage = QString::fromStdString(replyMessage);
-                qDebug() << qReplyMessage;
-                // pMainWindow->logToolsOutput(qReplyMessage);
-                // pMainWindow->logToolsOutput("IntelliSense has answered!");
-                return qReplyMessage;
-            } else {
-                // pMainWindow->logToolsOutput("Unexpected error while receiving IntelliSense answer");
+                return QString::fromStdString(replyMessage);
             }
-        } else {
-            // pMainWindow->logToolsOutput("IntelliSense is not responding");
         }
-    }
-    catch (...) {
-        // pMainWindow->logToolsOutput("Unknown error occured");
+    } catch (...) {
+        qDebug() << "Unknown error occured!";
     }
     return "";
 }

@@ -1,0 +1,8 @@
+[submodule "LSPAdapter"]
+	path = LSPAdapter
+	url = https://github.com/Voladsky/LSPAdapter
+	shallow = true
+[submodule "pascalabcnet-zmq"]
+	path = pascalabcnet-zmq
+	url = https://github.com/Voladsky/pascalabcnet-zmq
+	shallow = true
