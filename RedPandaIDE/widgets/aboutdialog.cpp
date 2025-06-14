@@ -71,10 +71,10 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui->lblCompileTime->setText(ui->lblCompileTime->text()
                                 .arg(__DATE__, __TIME__));
 
-    QString website="https://sourceforge.net/projects/redpanda-cpp/";
-    if (pSettings->environment().language()=="zh_CN") {
-        website = "http://royqh.net/redpandacpp/";
-    }
+    QString website="https://pascalabc.net/";
+    // if (pSettings->environment().language()=="zh_CN") {
+    //     website = "http://royqh.net/redpandacpp/";
+    // }
     ui->lblHomepage->setText(tr("Website: <a href=\"%1\">%1</a>").arg(website));
 }
 

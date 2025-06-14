@@ -1140,14 +1140,15 @@ void MainWindow::applyUISettings()
 }
 
 void MainWindow::hideUIElements() {
-    // Remove file explorer dock
+    // remove file explorer dock
     ui->dockExplorer->setDisabled(true);
     ui->dockExplorer->setVisible(false);
 
+    // remove debug buttons near compile
     ui->toolbarDebug->setDisabled(true);
     ui->toolbarDebug->setVisible(false);
 
-    // remove debug and generate assembly from execute meny
+    // remove debug and generate assembly from execute menu
     for (auto& act: ui->toolbarDebug->actions()) {
         ui->menuExecute->removeAction(act);
     }
@@ -1169,7 +1170,6 @@ void MainWindow::hideUIElements() {
 
     // remove tabs in the bottom
     ui->tabMessages->removeTab(ui->tabMessages->indexOf(ui->tabDebug));
-    ui->tabMessages->removeTab(ui->tabMessages->indexOf(ui->tabSearch));
     ui->tabMessages->removeTab(ui->tabMessages->indexOf(ui->tabTODO));
     ui->tabMessages->removeTab(ui->tabMessages->indexOf(ui->tabBookmark));
     ui->tabMessages->removeTab(ui->tabMessages->indexOf(ui->tabProblem));
@@ -1179,7 +1179,6 @@ void MainWindow::hideUIElements() {
     pSettings->ui().setShowBookmark(false);
     pSettings->ui().setShowDebug(false);
     pSettings->ui().setShowTODO(false);
-    // ui->menuRefactor->setDisabled(true);
 }
 
 QFileSystemWatcher *MainWindow::fileSystemWatcher()
