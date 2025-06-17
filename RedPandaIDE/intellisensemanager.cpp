@@ -14,8 +14,6 @@ IntelliSenseManager::IntelliSenseManager(QObject *parent)
 {
     intelliProcess = new QProcess(this);
     requester.connect("tcp://127.0.0.1:5557");
-    requester.set(zmq::sockopt::reconnect_ivl, 100);    // 100ms between retries
-    requester.set(zmq::sockopt::reconnect_ivl_max, 5000); // Max 5s delay
 }
 
 IntelliSenseManager& IntelliSenseManager::instance()

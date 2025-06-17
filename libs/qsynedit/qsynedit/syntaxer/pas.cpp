@@ -28,7 +28,7 @@ const QSet<QString> PasSyntaxer::Keywords {
     "begin", "end", "false", "for", "function", "goto",
     "if", "in", "local", "nil", "not", "or",
     "repeat", "return", "then", "true", "until",
-    "while", "new", "var", "to"
+    "while", "new", "var", "to", "type"
 };
 
 const QSet<QString> PasSyntaxer::StdLibFunctions {
